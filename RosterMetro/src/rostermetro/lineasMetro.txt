@@ -1,0 +1,342 @@
+Línea 1: Pinar de Chamartín - Valdecarros.
+Pinar de Chamartín (correspondencia con líneas 4 y Metro Ligero 1)
+Bambú
+Chamartín (correspondencia con línea 10 y con Cercanías y Largo Recorrido Renfe)
+Plaza de Castilla (correspondencia con líneas 9 y 10 y con atubuses interurbanos)
+Valdeacederas
+Tetuán
+Estrecho
+Alvarado
+Cuatro Caminos (correspondencia con líneas 2 y 6)
+Ríos Rosas
+Iglesia
+Bilbao (correspondencia con línea 4)
+Tribunal (correspondencia con línea 10)
+Gran Vía (correspondencia con línea 5)
+Sol (correspondencia con líneas 2 y 3 y con Cercanías de Renfe)
+Tirso de Molina
+Antón Martín
+Atocha (correspondencia con autobuses interurbanos)
+Atocha Renfe (correspondencia con Cercanías de Renfe)
+Menéndez Pelayo
+Pacífico (correspondencia con línea 6)
+Puente de Vallecas
+Nueva Numancia
+Portazgo
+Buenos Aires
+Alto del Arenal
+Miguel Hernández
+Sierra de Guadalupe (correspondencia con Cercanías de Renfe)
+Villa de Vallecas
+Congosto
+La Gavia
+Las Suertes
+Valdecarros.
+Línea 2: Las Rosas - Cuatro Caminos
+Las Rosas
+Avenida de Guadalajara
+Alsacia
+La Almudena
+La Elipa
+Ventas (correspondencia con línea 5)
+Manuel Becerra (correspondencia con línea 6)
+Goya (correspondencia con línea 4)
+Príncipe de Vergara (correspondencia con línea 9)
+Retiro
+Banco de España
+Sevilla
+Sol (correspondencia con líneas 1 y 3 y con Cercanías de Renfe)
+Ópera (correspondencia con líneas 5 y Ramal Opera - Príncipe Pío)
+Santo Domingo
+Noviciado (correspondencia con líneas 3 y 10)
+San Bernardo (correspondencia con línea 4)
+Quevedo
+Canal (correspondencia con línea 7)
+Cuatro Caminos (correspondencia con líneas 1 y 6)
+Línea 3: Villaverde Alto - Moncloa.
+Villaverde Alto (correspondencia con Cercanías Renfe)
+San Cristobal
+Villaverde Bajo Cruce
+Ciudad de los Ángeles
+San Fermín-Orcasur
+Hospital 12 de Octubre
+Almendrales
+Legazpi (correspondencia con línea 6 y con autobuses interurbanos)
+Delícias
+Palos de la Frontera (correspondencia con autobuses interurbanos)
+Embajadores (correspondencia con línea 5, con Cercanías de Renfe y con autobuses interurbanos)
+Lavapies
+Sol (correspondencia con líneas 1 y 2 y con Cercanías de Renfe)
+Callao (correspondencia con línea 5)
+Plaza de España (correspondencia con líneas 2 y 10)
+Ventura Rodríguez
+Argüelles (correspondencia con líneas 4 y 6)
+Moncloa (correspondencia con línea 6 y con autobuses interurbanos)
+Línea 4: Argüelles - Pinar de Chamartín.
+Argüelles (correspondencia con líneas 3 y 6)
+San Bernardo (correspondencia con línea 2)
+Bilbao (correspondencia con línea 1)
+Alonso Martínez (correspondencia con líneas 5 y 10)
+Colón
+Serrano
+Velázquez
+Goya (correspondencia con línea 2)
+Lista
+Diego de León (correspondencia con líneas 5 y 6)
+Avenida de América (correspondencia con líneas 6, 7, y 9 y con autobuses interurbanos)
+Prosperidad
+Alfonso XIII
+Avenida de la Paz
+Arturo Soria
+Esperanza
+Canillas
+Mar de Cristal (correspondencia con línea 8)
+San Lorenzo
+Parque de Santa María
+Hortaleza
+Manoteras
+Pinar de Chamartín (correspondencia con línea 1 y Metro Ligero 1)
+Línea 5: Alameda de Osuna - Casa de Campo
+Alameda de Osuna
+El Capricho
+Canillejas (correspondencia con autobuses interurbanos)
+Torres Arias
+Suanzes
+Ciudad Líneal (correspondencia con autobuses interurbanos)
+Pueblo Nuevo (correspondencia con línea 7)
+Quintana
+El Carmen
+Ventas (correspondencia con línea 2)
+Diego de León (correspondencia con líneas 4 y 6 )
+Núñez de Balboa (correspondencia con línea 9)
+Rubén Darío
+Alonso Martínez (correspondencia con líneas 4 y 10 )
+Chueca
+Gran Vía (correspondencia con línea 1 )
+Callao (correspondencia con línea 3 )
+Ópera (correspondencia con líneas 2 y Ramal)
+La Latina
+Puerta de Toledo
+Acacias (correspondencia con línea 3, con Cercanías de Renfe y con autobuses interurbanos)
+Pirámides (correspondencia con Cercanías de Renfe)
+Marqués de Vadillo
+Urgel
+Oporto (correspondencia con línea 6 y con autobuses interurbanos)
+Vista Alegre
+Carabanchel
+Eugenia de Montijo
+Aluche (correspondencia con Cercanías de Renfe y con autobuses interurbanos)
+Empalme
+Campamento (correspondencia con autobuses interurbanos)
+Casa de Campo (correspondencia con línea 10 ).
+Línea 6: Circular.
+Laguna (correspondencia con Cercanías de Renfe)
+Carpetana
+Oporto (correspondencia con línea 5 y con autobuses interurbanos)
+Opañel
+Plaza Elíptica (correspondencia con línea 11 y con autobuses interurbanos)
+Usera
+Legazpi (correspondencia con línea 3 y con autobuses interurbanos)
+Arganzuela-Planetario
+Méndez Álvaro (correspondencia con Cercanías de Renfe y con autobuses interurbanos)
+Pacífico (correspondencia con línea 1)
+Conde de Casal (correspondencia con autobuses interurbanos)
+Sainz de Baranda (correspondencia con línea 9)
+O'Donnell
+Manuel Becerra (correspondencia con línea 2)
+Diego de León (correspondencia con líneas 4 y 5 )
+Avenida de América (correspondencia con líneas 4, 7 y 9 y con autobuses interurbanos)
+República Argentina
+Nuevos Ministerios (correspondencia con líneas 8 y 10 y con Cercanías de Renfe)
+Cuatro Caminos (correspondencia con líneas 1 y 2 )
+Guzmán el Bueno (correspondencia con línea 7 )
+Metropolitano
+Ciudad Universitaria
+Moncloa (correspondencia con línea 3 y con autobuses interurbanos)
+Argüelles (correspondencia con líneas 3 y 4 )
+Príncipe Pío (correspondencia con líneas 10 y Ramal, con Cercanías de Renfe y con autobuses interurbanos)
+Puerta del Ángel
+Alto de Extremadura
+Lucero.
+Línea 7: Hospital del Henares - Pitis.
+Hospital del Henares
+Henares
+Jarama
+San Fernando
+La Rambla
+Coslada Central (correspondencia con Cercanías de Renfe)
+Barrio del Puerto
+Estadio Olímpico (Cambio de tren)
+Las Musas
+San Blas
+Simancas
+García Noblejas
+Ascao
+Pueblo Nuevo (correspondencia con la línea 5)
+Barrio de la Concepción
+Parque de las Avenidas
+Cartagena
+Avenida de América (correspondencia con las líneas 4, 6 y 9 y con autobuses interurbanos)
+Gregorio Marañón (correspondencia con la línea 10)
+Alonso Cano
+Canal (correspondencia con la línea 2)
+Islas Filipinas
+Guzmán el Bueno (correspondencia con la línea 6)
+Francos Rodríguez
+Valdezarza
+Antonio Machado
+Peñagrande
+Avenida de la Ilustración
+Lacoma
+Pitis (correspondencia con Cercanías de Renfe).
+Línea 8: Nuevos Ministerios - Aeropuerto.
+Nuevos Ministerios (correspondencia con líneas 6 y 10 y con Cercanías de Renfe)
+Colombia (correspondencia con línea 9)
+Pinar del Rey
+Mar de Cristal (correspondencia con la línea 4)
+Campo de las Naciones
+Aeropuerto T1-T2-T3
+Barajas
+Aeropuerto T4
+Línea 9: Mirasierra - Arganda del Rey.
+Mirasierra
+Herrera Oria
+Barrio del Pilar
+Ventilla
+Plaza de Castilla (correspondencia con líneas 1 y 10 y con autobuses interurbanos)
+Duque de Pastrana
+Pío XII
+Colombia (correspondencia con la línea 8)
+Concha Espina
+Cruz del Rayo
+Avenida de América (correspondencia con las líneas 4, 6 y 7 y con autobuses interurbanos)
+Núñez de Balboa (correspondencia con la línea 5)
+Príncipe de Vergara (correspondencia con la línea 2)
+Ibiza
+Sainz de Baranda (correspondencia con la línea 6)
+Estrella
+Vinateros
+Artilleros
+Pavones
+Valdebernardo
+Vicálvaro (correspondencia con autobuses interurbanos)
+San Cipriano
+Puerta de Arganda (correspondencia con Cercanías de Renfe, Cambio de tren)
+Rivas Urbanizaciones
+Rivas Futura
+Rivas Vaciamadrid
+La Poveda
+Arganda del Rey
+Línea 10: Hospital Infanta Sofía - Puerta del Sur.
+Hospital Infanta Sofía
+Reyes Católicos
+Baunatal
+Manuel de Falla
+Marqués de la Valdavia
+La Moraleja
+La Granja
+Ronda de la Comunicación
+Las Tablas (correspondencia con la línea Metro Ligero 1)
+Montecarmelo
+Tres Olivos (Cambio de tren)
+Fuencarral
+Begoña
+Chamartín (correspondencia con Renfe y con autobuses Interurbanos)
+Plaza de Castilla (correspondencia con líneas 1 y 9 y con autobuses Interurbanos)
+Cuzco
+Santiago Bernabeu
+Nuevos Ministerios (correspondencia con línea 6 y 8 y con Cercanías de Renfe)
+Gregorio Marañón ( correspondencia con la línea 7)
+Alonso Martínez (correspondencia con las líneas 4 y 5)
+Tribunal (correspondencia con la línea 1)
+Plaza de España (correspondencia con la línea 2)
+Príncipe Pío (correspondencia con las líneas 6 y Ramal, con Cercanías de Renfe y con autobuses interurbanos)
+Lago
+Batán
+Casa de Campo (correspondencia con la línea 5)
+Colonia Jardín (correspondencia con las líneas Metro Ligero 2 y Metro Ligero 3)
+Aviación Española
+Cuatro Vientos (correspondencia Cercanías de Renfe)
+Joaquín Vilumbrales
+Puerta del Sur (correspondencia con línea 12)
+Línea 11: Plaza Elíptica - La Fortuna
+Plaza Elíptica (correspondencia con la línea 6 y con autobuses interurbanos)
+Abrantes
+Pan Bendito
+San Francisco
+Carabanchel Alto
+La Peseta
+La Fortuna
+Línea 12: MetroSur
+Puerta del Sur
+Parque Lisboa
+Alcorcón Central (correspondencia con Cercanías de Renfe )
+Parque Oeste
+Universidad Rey Juan Carlos
+Móstoles Central (correspondencia con Cercanías de Renfe )
+Pradillo
+Hospital de Móstoles
+Manuela Malasaña
+Loranca
+Hospital de Fuenlabrada
+Parque Europa
+Fuenlabrada Central (correspondencia con Cercanías de Renfe )
+Parque de los Estados
+Arroyo Culebro
+Conservatorio
+Alonso de Mendoza
+Getafe Central (correspondencia con Cercanías de Renfe )
+Juan de la Cierva
+El Casar (correspondencia con Cercanías de Renfe )
+Los Espartales
+El Bercial
+El Carrascal
+Julián Besteiro
+Casa del Reloj
+Hospital Severo Ochoa
+Leganés Central (correspondencia con Cercanías de Renfe )
+San Nicasio.
+Línea Ramal Opera - Príncipe Pío
+Opera (correspondencia con las líneas 2 y 5)
+Príncipe Pío (correspondencia con las líneas 6 y 10, con autobuses interurbanos y con Cercanías de Renfe).
+ML1: Pinar de Chamartí­n - Las Tablas
+Pinar de Chamartín (correspondencia con líneas 1 y 4)
+Fuente de la Mora (correspondencia con Cercanías de Renfe)
+Virgen del Cortijo
+Antonio Saura
+Álvarez de Villamil
+Blasco Ibáñez
+María Tudor
+Palas de Rey
+Las Tablas (correspondencia con línea 10)
+ML2: Colonia Jardín - Estación de Aravaca
+Colonia Jardín (correspondencia con la líneas 10 y con Metro Ligero 3)
+Prado de la Vega
+Colonia de los Ángeles
+Prado del Rey
+Somosaguas Sur
+Somosaguas Centro
+Pozuelo Oeste
+Bélgica
+Dos Castillas
+Campus de Somosaguas
+Avenida de Europa
+Berna
+Estación de Aravaca.
+ML3: Colonia Jardín - Puerta de Boadilla
+Colonia Jardín (correspondencia con la línea 10 y con Metro Ligero 2)
+Ciudad de la Imagen
+José Isbert
+Ciudad del Cine
+Cocheras
+Retamares
+Montepríncipe
+Ventorro del Cano
+Prado del Espino
+Cantabria
+Ferial de Boadilla
+Boadilla Centro
+Nuevo Mundo
+Siglo XXI
+Infante Don Luís
+Puerta de Boadilla
