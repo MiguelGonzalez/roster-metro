@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rostermetro;
 
 /**
@@ -10,10 +6,13 @@ package rostermetro;
  */
 public class RosterMetro {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        /*
+         * Procesador fichero KML y Líneas Metro
+         */
+        
+        
     }
+
+    
 }

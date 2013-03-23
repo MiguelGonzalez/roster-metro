@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<MetroMadrid>
+    <Linea name="Línea 3">
+        <Metro name="Palos de la Frontera" />
+        <Metro name="Embajadores" />
+        <Metro name="Lavapies" />
+        <Metro name="Sol" />
+    </Linea>
+</MetroMadrid>
