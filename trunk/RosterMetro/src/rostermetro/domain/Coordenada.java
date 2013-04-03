@@ -1,7 +1,5 @@
 package rostermetro.domain;
 
-import rostermetro.Utilidades;
-
 /**
  *
  * @author paracaidista
