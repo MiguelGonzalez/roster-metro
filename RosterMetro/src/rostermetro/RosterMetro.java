@@ -1,12 +1,43 @@
 package rostermetro;
 
+import com.keithpower.gekmlib.Folder;
+import com.keithpower.gekmlib.KMLParser;
+import com.keithpower.gekmlib.Kml;
+import com.keithpower.gekmlib.Placemark;
+import java.io.File;
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 /**
  *
  * @author ceura
  */
 public class RosterMetro {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException {
+        String file = "C:\\Users\\paracaidista\\Documents\\NetBeansProjects\\roster-metro\\RosterMetro\\src\\rostermetro\\metroMadrid.kml";
+        
+        Kml kmlRoot = new KMLParser().parse(new File(file)); 
+        
+        Folder folderMetro = kmlRoot.getFolder();
+        
+        Folder[] folderLineas = folderMetro.getFolders();
+        
+        for(Folder folderLinea : folderLineas) {
+            
+            
+            Placemark[] paradas = folderLinea.getPlacemarks();
+            
+            for(Placemark parada : paradas) {
+                if(parada.getName().equals("Sol Metro")) {
+                    System.out.println(folderLinea.getName() + ", " + parada.getPoint().getNumericalCoordinates()[0] + ", " +  parada.getPoint().getNumericalCoordinates()[1]);
+                }
+                //System.out.println("  " + parada.getName());
+                
+            }
+        }
+        
+        
         /*
          * Procesador fichero KML y Líneas Metro
          */
