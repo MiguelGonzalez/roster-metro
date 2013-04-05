@@ -2,7 +2,7 @@ package rostermetro.domain;
 
 /**
  *
- * @author paracaidista
+ * @author Jaime Bárez y Miguel González
  */
 public class Coordenada {
 
@@ -15,7 +15,10 @@ public class Coordenada {
         this.latitude = latitude;
     }
 
-    public int calculateDistanceByHaversineFormula(Coordenada coordenadaA) {
+    /*
+     * ByHaversineFormula
+     */
+    public double getDistanceTo(Coordenada coordenadaA) {
 
         double lat1 = Math.toRadians(latitude);
         double lon1 = Math.toRadians(longitude);
@@ -33,7 +36,7 @@ public class Coordenada {
 
         double distanceInMeters = EARTHRADIUS * c * 1000;
 
-        return (int) distanceInMeters;
+        return distanceInMeters;
 
     }
 
