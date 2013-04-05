@@ -4,52 +4,69 @@
  */
 package rostermetro.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
 import rostermetro.Utilidades;
 
 /**
  *
- * @author Ceura
+ * @author Jaime Bárez y Miguel González
  */
 public class PlanoMetro {
 
     private final String nombre;
-    private final List<Linea> lineas;
-    private final HashMap<Parada, List<Linea>> paradaYLineas;
+    private final Collection<Linea> lineas;
+    private final Set<Parada> paradas;
 
-    public PlanoMetro(String nombre, List<Linea> lineas) {
+    public PlanoMetro(String nombre, Collection<Linea> lineas, Set<Parada> paradas) {
         this.nombre = nombre;
-        this.lineas = lineas;
-        paradaYLineas = new HashMap<>();
-        for (Linea linea : lineas) {
-            for (Parada parada : linea.getParadas()) {
-                if (paradaYLineas.containsKey(parada)) {
-                    paradaYLineas.get(parada).add(linea);
-                } else {
-                    ArrayList<Linea> lineasList = new ArrayList<>();
-                    lineasList.add(linea);
-                    paradaYLineas.put(parada, lineasList);
-                }
-            }
-        }
+        this.lineas = Collections.unmodifiableCollection(lineas);
+        this.paradas = Collections.unmodifiableSet(paradas);
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @return the lineas
+     */
+    public Collection<Linea> getLineas() {
+        return lineas;
+    }
+
+    /**
+     * @return the paradas
+     */
+    public Collection<Parada> getParadas() {
+        return paradas;
     }
 
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utilidades.appendLine(str, nombre);
-        for (Linea linea : lineas) {
+        for (Linea linea : getLineas()) {
             Utilidades.appendLine(str, linea.toString());
         }
         return str.toString();
     }
 
-    public Map<Parada, List<Linea>> getParadaYLineas() {
-        return paradaYLineas;
+    public Parada getParadaMasCercana(Coordenada coordenada) {
+        Parada masCercana = null;
+        double menorDistancia = Double.POSITIVE_INFINITY;
+        for (Parada parada : paradas) {
+            double distancia = parada.getCoordenada().getDistanceTo(coordenada);
+            if (distancia < menorDistancia) {
+                masCercana = parada;
+                menorDistancia = distancia;
+            }
+        }
+        return masCercana;
     }
 }

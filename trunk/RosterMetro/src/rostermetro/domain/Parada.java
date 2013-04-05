@@ -5,7 +5,7 @@ import rostermetro.Utilidades;
 
 /**
  *
- * @author paracaidista
+ * @author Jaime Bárez y Miguel González
  */
 public class Parada {
 
@@ -21,7 +21,7 @@ public class Parada {
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utilidades.appendLine(str, getNombre());
-        Utilidades.appendLine(str, "-", coordenada.toString());
+        Utilidades.appendLine(str, "-", getCoordenada().toString());
         return str.toString();
     }
 
@@ -29,7 +29,7 @@ public class Parada {
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.getNombre());
-        hash = 97 * hash + Objects.hashCode(this.coordenada);
+        hash = 97 * hash + Objects.hashCode(this.getCoordenada());
         return hash;
     }
 
@@ -56,5 +56,12 @@ public class Parada {
      */
     public String getNombre() {
         return nombre;
+    }
+
+    /**
+     * @return the coordenada
+     */
+    public Coordenada getCoordenada() {
+        return coordenada;
     }
 }

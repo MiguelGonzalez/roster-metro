@@ -1,11 +1,7 @@
 package rostermetro;
 
-import com.keithpower.gekmlib.Folder;
-import com.keithpower.gekmlib.KMLParser;
-import com.keithpower.gekmlib.Kml;
-import com.keithpower.gekmlib.Placemark;
-import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +15,7 @@ import rostermetro.parserKML.ParserXML;
 
 /**
  *
- * @author ceura
+ * @author Jaime Bárez y Miguel González
  */
 public class RosterMetro {
 
@@ -27,18 +23,8 @@ public class RosterMetro {
 
         PlanoMetro metroMadrid = ParserXML.parse(RosterMetro.class.getResourceAsStream("metroMadrid.kml"));
         //System.out.println(metroMadrid);
-        Map<Parada, List<Linea>> paradaYLineas = metroMadrid.getParadaYLineas();
-        Set<Entry<Parada, List<Linea>>> entrySet = paradaYLineas.entrySet();
-        Iterator<Entry<Parada, List<Linea>>> iterator = entrySet.iterator();
-        while (iterator.hasNext()) {
-            Entry<Parada, List<Linea>> next = iterator.next();
-            Parada key = next.getKey();
-            System.out.println(key.getNombre());
-            List<Linea> value = next.getValue();
-            for (Linea linea : value) {
-                System.out.println("-" + linea.getNombre());
-            }
-        }
+        System.out.println(Arrays.toString(metroMadrid.getParadas().toArray()));
+        
 
         /*
          * Procesador fichero KML y Líneas Metro

@@ -2,7 +2,7 @@ package rostermetro;
 
 /**
  *
- * @author ceura
+ * @author Jaime Bárez y Miguel González
  */
 public class Utilidades {
 

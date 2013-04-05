@@ -6,7 +6,6 @@ package rostermetro.parserKML;
 
 import com.keithpower.gekmlib.Folder;
 import com.keithpower.gekmlib.KMLParser;
-import com.keithpower.gekmlib.Kml;
 import com.keithpower.gekmlib.Placemark;
 import java.io.File;
 import java.io.FileReader;
@@ -15,6 +14,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 import org.xml.sax.SAXException;
 import rostermetro.domain.Coordenada;
 import rostermetro.domain.Linea;
@@ -23,23 +26,25 @@ import rostermetro.domain.PlanoMetro;
 
 /**
  *
- * @author Ceura
+ * @author Jaime Bárez y Miguel González
  */
 public class ParserXML {
 
     public static PlanoMetro parse(Reader reader) throws IOException, SAXException {
-        Kml kmlRoot = new KMLParser().parse(reader);
-        Folder planoMetroKML = kmlRoot.getFolder();
-        ArrayList<Linea> lineas = new ArrayList<>();
+        Folder planoMetroKML = new KMLParser().parse(reader).getFolder();
+        List<Linea> lineasMetro = new ArrayList<>();
+        Set<Parada> paradasMetro = new HashSet<>();
         for (Folder lineaKML : planoMetroKML.getFolders()) {
-            ArrayList<Parada> paradas = new ArrayList<>();
+            List<Parada> paradasLinea = new ArrayList<>();
             for (Placemark paradaKML : lineaKML.getPlacemarks()) {
-                paradas.add(new Parada(paradaKML.getName(), getCoordenada(paradaKML)));
+                Parada parada = new Parada(paradaKML.getName(), getCoordenada(paradaKML));
+                paradasLinea.add(parada);
+                paradasMetro.add(parada);
             }
-            lineas.add(new Linea(lineaKML.getName(), paradas));
+            lineasMetro.add(new Linea(lineaKML.getName(), paradasLinea));
         }
 
-        return new PlanoMetro(planoMetroKML.getName(), lineas);
+        return new PlanoMetro(planoMetroKML.getName(), lineasMetro, paradasMetro);
     }
 
     public static PlanoMetro parse(InputStream resourceAsStream) throws IOException, SAXException {
@@ -53,7 +58,6 @@ public class ParserXML {
     private static Coordenada getCoordenada(Placemark paradaKML) {
         double[] numericalCoordinates = paradaKML.getPoint().getNumericalCoordinates();
         Coordenada coordenada = new Coordenada(numericalCoordinates[0], numericalCoordinates[1]);
-
         return coordenada;
     }
 }

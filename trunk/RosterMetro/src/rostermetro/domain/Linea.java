@@ -1,12 +1,11 @@
 package rostermetro.domain;
 
 import java.util.List;
-import java.util.Objects;
 import rostermetro.Utilidades;
 
 /**
  *
- * @author paracaidista
+ * @author Jaime Bárez y Miguel González
  */
 public class Linea {
 
@@ -34,31 +33,5 @@ public class Linea {
             Utilidades.appendLine(str, "-", parada.toString());
         }
         return str.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.nombre);
-        hash = 59 * hash + Objects.hashCode(this.paradas);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Linea other = (Linea) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.paradas, other.paradas)) {
-            return false;
-        }
-        return true;
     }
 }
