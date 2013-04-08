@@ -1,5 +1,7 @@
 package rostermetro.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import rostermetro.Utilidades;
 
@@ -11,10 +13,12 @@ public class Parada {
 
     private final String nombre;
     private final Coordenada coordenada;
+    private final Collection<Linea> correspondencias;
 
     public Parada(String nombre, Coordenada coordenada) {
         this.nombre = nombre;
         this.coordenada = coordenada;
+        this.correspondencias = new HashSet<>();;
     }
 
     @Override
@@ -28,8 +32,7 @@ public class Parada {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.getNombre());
-        hash = 97 * hash + Objects.hashCode(this.getCoordenada());
+        hash = 79 * hash + Objects.hashCode(this.nombre);
         return hash;
     }
 
@@ -43,9 +46,6 @@ public class Parada {
         }
         final Parada other = (Parada) obj;
         if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.coordenada, other.coordenada)) {
             return false;
         }
         return true;
@@ -63,5 +63,12 @@ public class Parada {
      */
     public Coordenada getCoordenada() {
         return coordenada;
+    }
+
+    /**
+     * @return the correspondencias
+     */
+    public Collection<Linea> getCorrespondencias() {
+        return correspondencias;
     }
 }

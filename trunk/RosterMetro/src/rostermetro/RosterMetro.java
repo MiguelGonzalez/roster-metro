@@ -2,11 +2,6 @@ package rostermetro;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import org.xml.sax.SAXException;
 import rostermetro.domain.Linea;
 import rostermetro.domain.Parada;
@@ -22,9 +17,27 @@ public class RosterMetro {
     public static void main(String[] args) throws IOException, SAXException {
 
         PlanoMetro metroMadrid = ParserXML.parse(RosterMetro.class.getResourceAsStream("metroMadrid.kml"));
-        //System.out.println(metroMadrid);
-        System.out.println(Arrays.toString(metroMadrid.getParadas().toArray()));
-        
+        double distanceTo = metroMadrid.getParada("Moncloa Metro").getCoordenada().getDistanceTo(metroMadrid.getParada("Argüelles Metro").getCoordenada());
+        System.out.println("distancia " + distanceTo);
+        //        System.out.println("MetroMadrid:");
+//        System.out.println(metroMadrid);
+//        System.out.println("=-------=============");
+//
+//        System.out.println("Paradas:");
+//        System.out.println(Arrays.toString(metroMadrid.getParadas().toArray()));
+//        System.out.println("==========================");
+
+//        System.out.println("Correspondencias:");
+//        for (Linea linea : metroMadrid.getLineas()) {
+//            for (Parada parada : linea.getParadas()) {
+//                System.out.println(parada.getNombre());
+//                System.out.println("Corresp:");
+//                for (Linea lineaC : parada.getCorrespondencias()) {
+//                    System.out.println(lineaC.getNombre());
+//                }
+//                System.out.println("-------------");
+//            }
+//        }
 
         /*
          * Procesador fichero KML y Líneas Metro

@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rostermetro.domain;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import rostermetro.Utilidades;
 
@@ -20,7 +17,7 @@ public class PlanoMetro {
     private final Collection<Linea> lineas;
     private final Set<Parada> paradas;
 
-    public PlanoMetro(String nombre, Collection<Linea> lineas, Set<Parada> paradas) {
+    PlanoMetro(String nombre, Collection<Linea> lineas, Set<Parada> paradas) {
         this.nombre = nombre;
         this.lineas = Collections.unmodifiableCollection(lineas);
         this.paradas = Collections.unmodifiableSet(paradas);
@@ -68,5 +65,17 @@ public class PlanoMetro {
             }
         }
         return masCercana;
+    }
+    public Parada getParada(String nombreParada){
+        Parada parada = null;
+        Iterator<Parada> iterator = paradas.iterator();
+        while(iterator.hasNext()){
+            Parada next = iterator.next();
+            if(Objects.equals(nombreParada, next.getNombre())){
+                parada = next;
+                break;
+            }
+        }
+        return parada;
     }
 }
