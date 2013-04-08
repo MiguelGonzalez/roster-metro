@@ -1,6 +1,8 @@
 package rostermetro.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import rostermetro.Utilidades;
 
 /**
@@ -12,9 +14,9 @@ public class Linea {
     private final String nombre;
     private final List<Parada> paradas;
 
-    public Linea(String nombre, List<Parada> paradas) {
+    public Linea(String nombre) {
         this.nombre = nombre;
-        this.paradas = paradas;
+        this.paradas = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -33,5 +35,27 @@ public class Linea {
             Utilidades.appendLine(str, "-", parada.toString());
         }
         return str.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Linea other = (Linea) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
     }
 }
