@@ -4,6 +4,7 @@
  */
 package rostermetro.auxiliares;
 
+import java.util.ArrayList;
 import java.util.List;
 import rostermetro.domain.Parada;
 
@@ -42,8 +43,14 @@ public class ADatosFilaAsterisco implements Comparable<ADatosFilaAsterisco> {
         return anterior;
     }
     
-    public List<Parada> getSucesores() {
-        return clave.getSucesores();
+    public List<ADatosFilaAsterisco> getSucesores() {
+        List<ADatosFilaAsterisco> sucesores = new ArrayList<>();
+        for (Parada parada : clave.getSucesores()) {
+            ADatosFilaAsterisco sucesor = new ADatosFilaAsterisco(
+                        parada, this, paradaFinal);
+            sucesores.add(sucesor);
+        }
+        return sucesores;
     }
     
     @Override
