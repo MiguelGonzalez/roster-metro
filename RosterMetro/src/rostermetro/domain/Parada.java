@@ -1,7 +1,10 @@
 package rostermetro.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import rostermetro.Utilidades;
 
@@ -64,11 +67,23 @@ public class Parada {
     public Coordenada getCoordenada() {
         return coordenada;
     }
+    
+    public double getDistancia(Parada paradaTo) {
+        return coordenada.getDistanceTo(paradaTo.getCoordenada());
+    }
 
     /**
      * @return the correspondencias
      */
     public Collection<Linea> getCorrespondencias() {
         return correspondencias;
+    }
+    
+    public List<Parada> getSucesores(){
+        ArrayList<Parada> sucesores = new ArrayList<>();
+        for (Linea lineaIntersecta : getCorrespondencias()) {
+            sucesores.addAll(lineaIntersecta.getSucesores(this));
+        }
+        return sucesores;
     }
 }

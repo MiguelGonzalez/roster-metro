@@ -1,6 +1,7 @@
 package rostermetro.domain;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import rostermetro.Utilidades;
@@ -57,5 +58,32 @@ public class Linea {
             return false;
         }
         return true;
+    }
+    
+    public boolean tieneAnterior(Parada parada) {
+        return paradas.indexOf(parada) > 0;
+    }
+    
+    public Parada getAnteriorParada(Parada parada) {
+        return paradas.get(paradas.indexOf(parada) - 1);
+    }
+    
+    public boolean tieneSiguiente(Parada parada) {
+        return paradas.indexOf(parada) != paradas.size() - 1;
+    }
+    
+    public Parada getSiguienteParada(Parada parada) {
+        return paradas.get(paradas.indexOf(parada) + 1);
+
+    }
+    public List<Parada> getSucesores(Parada parada){
+        List<Parada> sucesores = new LinkedList<>();
+        if(tieneAnterior(parada)){
+            sucesores.add(getAnteriorParada(parada));
+        }
+        if(tieneSiguiente(parada)){
+            sucesores.add(getSiguienteParada(parada));
+        }
+        return sucesores;
     }
 }
