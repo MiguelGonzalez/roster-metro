@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
+import rostermetro.BusquedaRuta;
 import rostermetro.Utilidades;
 
 /**
@@ -77,5 +78,11 @@ public class PlanoMetro {
             }
         }
         return parada;
+    }
+    
+    public Ruta getRuta(Parada paraInicio, Parada paraFinal) {
+        BusquedaRuta busquedaRuta = new BusquedaRuta(paraInicio, paraFinal);
+        
+        return busquedaRuta.getRuta();
     }
 }
