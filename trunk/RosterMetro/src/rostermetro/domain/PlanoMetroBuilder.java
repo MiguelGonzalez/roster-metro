@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 
 /**
  *
- * @author ceura
+ * @author Jaime Bárez y Miguel González
  */
 public class PlanoMetroBuilder {
 
@@ -24,14 +24,12 @@ public class PlanoMetroBuilder {
         paradas = new HashSet<>();
     }
 
-    public void registrarLinea(Folder lineaKML) {
-        Linea lineaARegistrar = new Linea(lineaKML.getName());
-        foldersYSuLinea.put(lineaKML, lineaARegistrar);
-    }
-
-    //Rellenamos paradasLineas
     public void put(Placemark paradaKML, Folder lineaKML) {
         Linea linea = foldersYSuLinea.get(lineaKML);
+        if (linea == null) {
+            linea = new Linea(lineaKML.getName());
+            foldersYSuLinea.put(lineaKML, linea);
+        }
         Parada parada = new Parada(paradaKML.getName(), getCoordenada(paradaKML));
         Parada paradaToAdd = null;
         if (!paradas.contains(parada)) {
@@ -51,8 +49,8 @@ public class PlanoMetroBuilder {
         linea.getParadas().add(paradaToAdd);
     }
 
-    private static Coordenada getCoordenada(Placemark paradaKML) {
-        double[] numericalCoordinates = paradaKML.getPoint().getNumericalCoordinates();
+    private static Coordenada getCoordenada(Placemark placeMark) {
+        double[] numericalCoordinates = placeMark.getPoint().getNumericalCoordinates();
         Coordenada coordenada = new Coordenada(numericalCoordinates[0], numericalCoordinates[1]);
         return coordenada;
     }

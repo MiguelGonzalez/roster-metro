@@ -3,7 +3,6 @@ package rostermetro.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import rostermetro.Utilidades;
@@ -21,15 +20,40 @@ public class Parada {
     public Parada(String nombre, Coordenada coordenada) {
         this.nombre = nombre;
         this.coordenada = coordenada;
-        this.correspondencias = new HashSet<>();;
+        this.correspondencias = new HashSet<>();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        Utilidades.appendLine(str, getNombre());
-        Utilidades.appendLine(str, "-", getCoordenada().toString());
-        return str.toString();
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @return the coordenada
+     */
+    public Coordenada getCoordenada() {
+        return coordenada;
+    }
+
+    public double getDistancia(Parada paradaTo) {
+        return coordenada.getHarversineDistanceTo(paradaTo.getCoordenada());
+    }
+
+    /**
+     * @return the correspondencias
+     */
+    public Collection<Linea> getCorrespondencias() {
+        return correspondencias;
+    }
+
+    public List<Parada> getSucesores() {
+        ArrayList<Parada> sucesores = new ArrayList<>();
+        for (Linea correspondencia : getCorrespondencias()) {
+            sucesores.addAll(correspondencia.getParadasQueRodean(this));
+        }
+        return sucesores;
     }
 
     @Override
@@ -54,36 +78,11 @@ public class Parada {
         return true;
     }
 
-    /**
-     * @return the nombre
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * @return the coordenada
-     */
-    public Coordenada getCoordenada() {
-        return coordenada;
-    }
-    
-    public double getDistancia(Parada paradaTo) {
-        return coordenada.getDistanceTo(paradaTo.getCoordenada());
-    }
-
-    /**
-     * @return the correspondencias
-     */
-    public Collection<Linea> getCorrespondencias() {
-        return correspondencias;
-    }
-    
-    public List<Parada> getSucesores(){
-        ArrayList<Parada> sucesores = new ArrayList<>();
-        for (Linea lineaIntersecta : getCorrespondencias()) {
-            sucesores.addAll(lineaIntersecta.getSucesores(this));
-        }
-        return sucesores;
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utilidades.appendLine(str, getNombre());
+        //Utilidades.appendLine(str, "-", getCoordenada().toString());
+        return str.toString();
     }
 }

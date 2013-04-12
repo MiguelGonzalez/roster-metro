@@ -24,7 +24,6 @@ public class ParserXML {
         PlanoMetroBuilder pmB = new PlanoMetroBuilder();
 
         for (Folder lineaKML : planoMetroKML.getFolders()) {
-            pmB.registrarLinea(lineaKML);
             for (Placemark paradaKML : lineaKML.getPlacemarks()) {
                 pmB.put(paradaKML, lineaKML);
             }

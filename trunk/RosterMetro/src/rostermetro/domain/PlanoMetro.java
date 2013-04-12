@@ -45,6 +45,38 @@ public class PlanoMetro {
         return paradas;
     }
 
+    public Parada getParadaMasCercana(Coordenada coordenada) {
+        Parada masCercana = null;
+        double menorDistancia = Double.POSITIVE_INFINITY;
+        for (Parada parada : paradas) {
+            double distancia = parada.getCoordenada().getHarversineDistanceTo(coordenada);
+            if (distancia < menorDistancia) {
+                masCercana = parada;
+                menorDistancia = distancia;
+            }
+        }
+        return masCercana;
+    }
+
+    public Parada getParada(String nombreParada) {
+        Parada parada = null;
+        Iterator<Parada> iterator = paradas.iterator();
+        while (iterator.hasNext()) {
+            Parada next = iterator.next();
+            if (Objects.equals(nombreParada, next.getNombre())) {
+                parada = next;
+                break;
+            }
+        }
+        return parada;
+    }
+
+    public Ruta getRuta(Parada paraInicio, Parada paraFinal) {
+        BusquedaRuta busquedaRuta = new BusquedaRuta(paraInicio, paraFinal);
+
+        return busquedaRuta.calcularRuta();
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -53,36 +85,5 @@ public class PlanoMetro {
             Utilidades.appendLine(str, linea.toString());
         }
         return str.toString();
-    }
-
-    public Parada getParadaMasCercana(Coordenada coordenada) {
-        Parada masCercana = null;
-        double menorDistancia = Double.POSITIVE_INFINITY;
-        for (Parada parada : paradas) {
-            double distancia = parada.getCoordenada().getDistanceTo(coordenada);
-            if (distancia < menorDistancia) {
-                masCercana = parada;
-                menorDistancia = distancia;
-            }
-        }
-        return masCercana;
-    }
-    public Parada getParada(String nombreParada){
-        Parada parada = null;
-        Iterator<Parada> iterator = paradas.iterator();
-        while(iterator.hasNext()){
-            Parada next = iterator.next();
-            if(Objects.equals(nombreParada, next.getNombre())){
-                parada = next;
-                break;
-            }
-        }
-        return parada;
-    }
-    
-    public Ruta getRuta(Parada paraInicio, Parada paraFinal) {
-        BusquedaRuta busquedaRuta = new BusquedaRuta(paraInicio, paraFinal);
-        
-        return busquedaRuta.getRuta();
     }
 }

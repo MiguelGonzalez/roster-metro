@@ -1,29 +1,29 @@
 package rostermetro.domain;
 
+import java.awt.geom.Point2D;
+
 /**
  *
  * @author Jaime Bárez y Miguel González
  */
-public class Coordenada {
+public class Coordenada extends Point2D.Double {
 
-    public static final double EARTHRADIUS = 6371; //km
-    private final double longitude;
-    private final double latitude;
+    public static final double RADIOTIERRA = 6371; //km
 
-    public Coordenada(double longitude, double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public Coordenada(double longitud, double latitud) {
+        super(longitud, latitud);
     }
 
     /*
+     * In meters
      * ByHaversineFormula
      */
-    public double getDistanceTo(Coordenada coordenadaA) {
+    public double getHarversineDistanceTo(Coordenada coordTo) {
 
-        double lat1 = Math.toRadians(latitude);
-        double lon1 = Math.toRadians(longitude);
-        double lat2 = Math.toRadians(coordenadaA.latitude);
-        double lon2 = Math.toRadians(coordenadaA.longitude);
+        double lat1 = Math.toRadians(getLatitude());
+        double lon1 = Math.toRadians(getLongitude());
+        double lat2 = Math.toRadians(coordTo.getLatitude());
+        double lon2 = Math.toRadians(coordTo.getLongitude());
 
         double dlon = lon2 - lon1;
         double dlat = lat2 - lat1;
@@ -34,42 +34,22 @@ public class Coordenada {
         double a = (sinlat * sinlat) + Math.cos(lat1) * Math.cos(lat2) * (sinlon * sinlon);
         double c = 2 * Math.asin(Math.min(1.0, Math.sqrt(a)));
 
-        double distanceInMeters = EARTHRADIUS * c * 1000;
+        double distanceInMeters = RADIOTIERRA * c * 1000;
 
         return distanceInMeters;
 
     }
 
+    private double getLatitude() {
+        return y;
+    }
+
+    private double getLongitude() {
+        return x;
+    }
+
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(String.valueOf(longitude)).append("").append(String.valueOf(latitude));
-        return str.toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Coordenada other = (Coordenada) obj;
-        if (Double.doubleToLongBits(this.longitude) != Double.doubleToLongBits(other.longitude)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.latitude) != Double.doubleToLongBits(other.latitude)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (int) (Double.doubleToLongBits(this.longitude) ^ (Double.doubleToLongBits(this.longitude) >>> 32));
-        hash = 29 * hash + (int) (Double.doubleToLongBits(this.latitude) ^ (Double.doubleToLongBits(this.latitude) >>> 32));
-        return hash;
+        return "Coordenada[" + x + ", " + y + "]";
     }
 }

@@ -1165,37 +1165,7 @@
                     <coordinates>-3.70823233131769,40.42125431344972,0</coordinates>
                 </Point>
             </Placemark>
-            <Placemark>
-                <name>Quevedo Metro</name>
-                <visibility>0</visibility>
-                <description>Line 2</description>
-                <LookAt>
-                    <longitude>-3.704404206652459</longitude>
-                    <latitude>40.4331826313596</latitude>
-                    <range>164.4955516686797</range>
-                    <tilt>4.101723825733862e-011</tilt>
-                    <heading>3.003074057595689</heading>
-                </LookAt>
-                <styleUrl>root://styles#default</styleUrl>
-                <Style>
-                    <IconStyle>
-                        <color>ff0000ff</color>
-                        <Icon>
-                            <href>root://icons/palette-4.png</href>
-                            <x>32</x>
-                            <y>128</y>
-                            <w>32</w>
-                            <h>32</h>
-                        </Icon>
-                    </IconStyle>
-                    <LabelStyle>
-                        <color>ff0000ff</color>
-                    </LabelStyle>
-                </Style>
-                <Point>
-                    <coordinates>-3.704298009011936,40.43305765377969,0</coordinates>
-                </Point>
-            </Placemark>
+            
             <Placemark>
                 <name>Noviciado Metro</name>
                 <visibility>0</visibility>
@@ -1227,6 +1197,7 @@
                     <coordinates>-3.707891485218483,40.42557986803879,0</coordinates>
                 </Point>
             </Placemark>
+            
             <Placemark>
                 <name>San Bernardo Metro</name>
                 <visibility>0</visibility>
@@ -1256,6 +1227,37 @@
                 </Style>
                 <Point>
                     <coordinates>-3.705374050898854,40.4297502525525,0</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Quevedo Metro</name>
+                <visibility>0</visibility>
+                <description>Line 2</description>
+                <LookAt>
+                    <longitude>-3.704404206652459</longitude>
+                    <latitude>40.4331826313596</latitude>
+                    <range>164.4955516686797</range>
+                    <tilt>4.101723825733862e-011</tilt>
+                    <heading>3.003074057595689</heading>
+                </LookAt>
+                <styleUrl>root://styles#default</styleUrl>
+                <Style>
+                    <IconStyle>
+                        <color>ff0000ff</color>
+                        <Icon>
+                            <href>root://icons/palette-4.png</href>
+                            <x>32</x>
+                            <y>128</y>
+                            <w>32</w>
+                            <h>32</h>
+                        </Icon>
+                    </IconStyle>
+                    <LabelStyle>
+                        <color>ff0000ff</color>
+                    </LabelStyle>
+                </Style>
+                <Point>
+                    <coordinates>-3.704298009011936,40.43305765377969,0</coordinates>
                 </Point>
             </Placemark>
             <Placemark>
