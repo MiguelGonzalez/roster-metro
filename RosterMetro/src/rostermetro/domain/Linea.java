@@ -28,14 +28,32 @@ public class Linea {
         return paradas;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        Utilidades.appendLine(str, nombre);
-        for (Parada parada : paradas) {
-            Utilidades.appendLine(str, "-", parada.toString());
+    private boolean tieneAnterior(Parada parada) {
+        return paradas.indexOf(parada) > 0;
+    }
+
+    private Parada getAnteriorParada(Parada parada) {
+        return paradas.get(paradas.indexOf(parada) - 1);
+    }
+
+    private boolean tieneSiguiente(Parada parada) {
+        return paradas.indexOf(parada) != paradas.size() - 1;
+    }
+
+    private Parada getSiguienteParada(Parada parada) {
+        return paradas.get(paradas.indexOf(parada) + 1);
+
+    }
+
+    public List<Parada> getParadasQueRodean(Parada parada) {
+        List<Parada> sucesores = new LinkedList<>();
+        if (tieneAnterior(parada)) {
+            sucesores.add(getAnteriorParada(parada));
         }
-        return str.toString();
+        if (tieneSiguiente(parada)) {
+            sucesores.add(getSiguienteParada(parada));
+        }
+        return sucesores;
     }
 
     @Override
@@ -59,31 +77,14 @@ public class Linea {
         }
         return true;
     }
-    
-    public boolean tieneAnterior(Parada parada) {
-        return paradas.indexOf(parada) > 0;
-    }
-    
-    public Parada getAnteriorParada(Parada parada) {
-        return paradas.get(paradas.indexOf(parada) - 1);
-    }
-    
-    public boolean tieneSiguiente(Parada parada) {
-        return paradas.indexOf(parada) != paradas.size() - 1;
-    }
-    
-    public Parada getSiguienteParada(Parada parada) {
-        return paradas.get(paradas.indexOf(parada) + 1);
 
-    }
-    public List<Parada> getSucesores(Parada parada){
-        List<Parada> sucesores = new LinkedList<>();
-        if(tieneAnterior(parada)){
-            sucesores.add(getAnteriorParada(parada));
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utilidades.appendLine(str, nombre);
+        for (Parada parada : paradas) {
+            Utilidades.appendLine(str, "-", parada.toString());
         }
-        if(tieneSiguiente(parada)){
-            sucesores.add(getSiguienteParada(parada));
-        }
-        return sucesores;
+        return str.toString();
     }
 }
