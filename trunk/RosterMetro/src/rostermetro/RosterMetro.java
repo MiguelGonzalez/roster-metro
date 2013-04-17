@@ -1,12 +1,14 @@
 package rostermetro;
 
 import java.io.IOException;
+import javax.swing.SwingUtilities;
 import org.xml.sax.SAXException;
 import rostermetro.domain.Coordenada;
 import rostermetro.domain.Parada;
 import rostermetro.domain.PlanoMetro;
 import rostermetro.domain.Ruta;
 import rostermetro.parserKML.ParserXML;
+import rostermetro.swing.BuscaParadasSimple;
 
 /**
  *
@@ -16,14 +18,24 @@ public class RosterMetro {
 
     public static void main(String[] args) throws IOException, SAXException {
 
-        PlanoMetro metroMadrid = ParserXML.parse(RosterMetro.class.getResourceAsStream("metroMadrid.kml"));
+        final PlanoMetro metroMadrid = ParserXML.parse(RosterMetro.class.getResourceAsStream("metroMadrid.kml"));
         /*  double distanceTo = metroMadrid.getParada("Moncloa Metro").getCoordenada().getDistanceTo(metroMadrid.getParada("Argüelles Metro").getCoordenada());
          System.out.println("distancia " + distanceTo);*/
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                BuscaParadasSimple buscaParadasSimple = new BuscaParadasSimple(metroMadrid);
+                buscaParadasSimple.setVisible(true);
+            }
+        });
 
 
-
-        Ruta ruta = metroMadrid.getRuta(metroMadrid.getParada("Aluche Metro"), metroMadrid.getParada("Cuatro Caminos Metro"));
-        System.out.println("ruta = " + ruta);//TODO No funciona bien
+        //Ruta ruta = metroMadrid.getRuta(metroMadrid.getParada("Aluche Metro"), metroMadrid.getParada("Cuatro Caminos Metro"));
+        //System.out.println("ruta = " + ruta);//TODO No funciona bien
+        
+        
+        
         //metroMadrid.getParada("Embajadores Metro")
         /*
          System.out.println("MetroMadrid:");
