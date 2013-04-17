@@ -8,11 +8,25 @@ import com.sun.org.apache.bcel.internal.generic.FLOAD;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -27,6 +41,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import rostermetro.domain.Coordenada;
 import rostermetro.domain.Parada;
 import rostermetro.domain.PlanoMetro;
 import rostermetro.domain.Ruta;
@@ -42,6 +57,7 @@ public class BuscaParadasSimple extends JFrame {
     private JComboBox destinoComboBox;
     private JTextArea muestraRutasArea;
     private JTable tableMuestraRutas;
+    private JLabel jLabel;
 
     public BuscaParadasSimple(PlanoMetro planoMetro) {
         this.planoMetro = planoMetro;
@@ -72,10 +88,11 @@ public class BuscaParadasSimple extends JFrame {
         derechaNoth.add(origenComboBox);
         derechaNoth.add(destinoComboBox);
         derecha.add(derechaNoth, BorderLayout.NORTH);
-        ImageIcon metroIcon = new ImageIcon(BuscaParadasSimple.class.getResource("metroMadrid.png"));
-        JLabel jLabel = new JLabel(metroIcon);
+        //ImageIcon metroIcon = new ImageIcon(BuscaParadasSimple.class.getResource("metroMadrid.png"));
+        //Image map = getMap(40.46667871671136, -3.689313162583721,0,0, 640, 480);
+        this.jLabel = new JLabel();
         //jLabel.setPreferredSize(new Dimension(500, 500));
-        //derecha.add(jLabel, BorderLayout.SOUTH);
+        derecha.add(jLabel, BorderLayout.SOUTH);
         origenComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,45 +116,72 @@ public class BuscaParadasSimple extends JFrame {
     }
 
     private void mostrarRuta() {
-        new Thread(new Runnable() {
+         //Image map = getMap(40.46667871671136, -3.689313162583721,0,0, 640, 480);
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                final Ruta ruta = planoMetro.getRuta((Parada) origenComboBox.getSelectedItem(), (Parada) destinoComboBox.getSelectedItem());
-                SwingUtilities.invokeLater(new Runnable() {
+                Parada pInicial = (Parada) origenComboBox.getSelectedItem();
+                Parada pFinal = (Parada) destinoComboBox.getSelectedItem();
+                final Ruta ruta = planoMetro.getRuta(pInicial, pFinal);
+
+                muestraRutasArea.setText(ruta.toString());
+                Object[][] objects = new Object[1][];
+                objects[0] = ruta.getListadoParadas().toArray();
+                TableModel tm = new AbstractTableModel() {
                     @Override
-                    public void run() {
-
-
-                        muestraRutasArea.setText(ruta.toString());
-                        Object[][] objects = new Object[1][];
-                        objects[0] = ruta.getListadoParadas().toArray();
-                        TableModel tm = new AbstractTableModel() {
-                            @Override
-                            public int getRowCount() {
-                                return ruta.getListadoParadas().size();
-                            }
-
-                            @Override
-                            public int getColumnCount() {
-                                return 1;
-                            }
-
-                            @Override
-                            public Object getValueAt(int rowIndex, int columnIndex) {
-                                return ruta.getListadoParadas().get(rowIndex);
-                            }
-
-                            @Override
-                            public String getColumnName(int column) {
-
-                                return "Ruta";
-                            }
-                        };
-                        tableMuestraRutas.setModel(tm);
-
+                    public int getRowCount() {
+                        return ruta.getListadoParadas().size();
                     }
-                });
+
+                    @Override
+                    public int getColumnCount() {
+                        return 1;
+                    }
+
+                    @Override
+                    public Object getValueAt(int rowIndex, int columnIndex) {
+                        return ruta.getListadoParadas().get(rowIndex);
+                    }
+
+                    @Override
+                    public String getColumnName(int column) {
+
+                        return "Ruta";
+                    }
+                };
+                tableMuestraRutas.setModel(tm);
+               
+                
+                jLabel.setIcon(new ImageIcon(getMap(pInicial,pFinal, 640, 480)));
             }
-        }).start();
+        });
+    }
+
+    public static final int ZOOM = 12;
+    public Image getMap(double latorigen, double lonOrigen, double latDestino, double lonDestino,  int width, int height) {
+        Image img = null;
+        try {
+            String url = "http://maps.google.com/maps/api/staticmap";
+        url += "?zoom="+ZOOM+"&size=" + width + "x" + height;
+        url += "&maptype=roadmap";
+        url += "&markers=color:red|label:Otigen|" + latorigen + "," + lonOrigen;
+        url += "&markers=color:red|label:Destino|" + latDestino + "," + lonDestino;
+        url += "&sensor=false";
+            img = ImageIO.read(new URL(
+           url));
+
+            //File outputfile = new File("map.png");
+            //ImageIO.write(img, "png", outputfile);
+            System.out.println("Saved!");
+        } catch (Exception ex) {
+            System.out.println("Error!" + ex);
+        }
+        return img;
+    }
+    
+    public Image getMap(Parada pInicial, Parada pFinal, int width, int height) {
+        Coordenada cInicial = pInicial.getCoordenada();
+        Coordenada cfiNal = pFinal.getCoordenada();
+        return getMap(cInicial.getLatitude(), cInicial.getLongitude(), cfiNal.getLatitude(), cfiNal.getLongitude(), width, height);
     }
 }

@@ -40,11 +40,11 @@ public class Coordenada extends Point2D.Double {
 
     }
 
-    private double getLatitude() {
+    public double getLatitude() {
         return y;
     }
 
-    private double getLongitude() {
+    public double getLongitude() {
         return x;
     }
 
