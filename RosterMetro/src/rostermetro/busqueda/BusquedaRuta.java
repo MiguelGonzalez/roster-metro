@@ -1,4 +1,4 @@
-package rostermetro;
+package rostermetro.busqueda;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Set;
-import rostermetro.auxiliares.FilaAAsterisco;
+import rostermetro.busqueda.FilaAAsterisco;
 import rostermetro.domain.Parada;
-import rostermetro.domain.Ruta;
 
 /**
  *
