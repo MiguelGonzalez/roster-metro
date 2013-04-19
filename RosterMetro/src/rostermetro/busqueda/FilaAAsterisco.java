@@ -2,6 +2,7 @@ package rostermetro.busqueda;
 
 import java.util.ArrayList;
 import java.util.List;
+import rostermetro.busqueda.BusquedaRuta.TipoRuta;
 import rostermetro.domain.Parada;
 
 /**
@@ -14,7 +15,7 @@ public class FilaAAsterisco implements Comparable<FilaAAsterisco> {
     private FilaAAsterisco anterior;
     private Parada paradaFinal;
 
-    public FilaAAsterisco(Parada clave, FilaAAsterisco anterior, Parada paradaFinal) {
+    private FilaAAsterisco(Parada clave, FilaAAsterisco anterior, Parada paradaFinal) {
         this.clave = clave;
         this.anterior = anterior;
         this.paradaFinal = paradaFinal;
@@ -63,6 +64,22 @@ public class FilaAAsterisco implements Comparable<FilaAAsterisco> {
             return 1;
         } else {
             return -1;
+        }
+    }
+
+    public static FilaAAsterisco create(Parada clave, FilaAAsterisco anterior, Parada paradaFinal, TipoRuta tipoRuta) {
+        switch (tipoRuta) {
+            case MAS_CORTA:
+                return new FilaAAsterisco(clave, anterior, paradaFinal);
+            case MAS_LARGA:
+                return new FilaAAsterisco(clave, anterior, paradaFinal) {
+                    @Override
+                    public double getF() {
+                        return -super.getF();
+                    }
+                };
+            default:
+                return new FilaAAsterisco(clave, anterior, paradaFinal);
         }
     }
 }
