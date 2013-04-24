@@ -28,12 +28,11 @@ public class BusquedaRuta {
     private Parada paradaFinal;
 
     public BusquedaRuta() {
-
         abierta = new PriorityQueue<>();
         cerrada = new HashSet<>();
     }
 
-    public Ruta calcularRuta(Parada paradaInicio, Parada paradaFinal) {
+    public RutaConLinea calcularRuta(Parada paradaInicio, Parada paradaFinal) {
         return calcularRuta(paradaInicio, paradaFinal, DEFAULT_TIPO_RUTA);
     }
 
@@ -46,14 +45,17 @@ public class BusquedaRuta {
      * @return la ruta entre las dos paradas. null si no existe (líneas o
      * paradas aisladas).
      */
-    public Ruta calcularRuta(Parada paradaInicio, Parada paradaFinal, TipoRuta tipoRuta) {
+    public RutaConLinea calcularRuta(Parada paradaInicio, Parada paradaFinal, TipoRuta tipoRuta) {
         this.paradaInicio = paradaInicio;
         this.paradaFinal = paradaFinal;
         abierta.clear();
         cerrada.clear();
         FilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
         abierta.add(filaInicial);
-        return calculaRutaRecursivo();
+        
+        Ruta rutaObtenida = calculaRutaRecursivo();
+        
+        return new RutaConLinea(rutaObtenida);
     }
 
     /**

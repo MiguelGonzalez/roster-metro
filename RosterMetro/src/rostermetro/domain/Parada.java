@@ -13,9 +13,9 @@ import java.util.Set;
  */
 public class Parada {
 
-    private final String nombre;
+    protected final String nombre;
     private final Coordenada coordenada;
-    private final Collection<Linea> correspondencias;
+    private final Set<Linea> correspondencias;
 
     public Parada(String nombre, Coordenada coordenada) {
         this.nombre = nombre;
@@ -44,7 +44,7 @@ public class Parada {
     /**
      * @return the correspondencias
      */
-    public Collection<Linea> getCorrespondencias() {
+    public Set<Linea> getCorrespondencias() {
         return correspondencias;
     }
 
