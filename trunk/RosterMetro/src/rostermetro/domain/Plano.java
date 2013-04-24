@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
-import rostermetro.Utilidades;
-import rostermetro.busqueda.BusquedaRuta;
-import rostermetro.busqueda.Ruta;
 
 /**
  *
@@ -89,4 +86,5 @@ public class Plano {
         }
         return str.toString();
     }
+    
 }

@@ -27,7 +27,8 @@ public class PlanoKMLParser extends PlanoParser {
 
         Kml parsedKML = new KMLParser().parse(reader);
         AbstractPlanoBuilder planoMetroBuilder = getPlanoMetroBuilder();
-        Folder[] lineasKML = null;
+        planoMetroBuilder.flush();
+        Folder[] lineasKML;
         String tituloPlano;
 
         Folder folder = parsedKML.getFolder();
