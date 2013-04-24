@@ -4,15 +4,14 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import rostermetro.busqueda.Ruta;
+import rostermetro.busqueda.RutaConLinea;
 import rostermetro.domain.Coordenada;
 import rostermetro.domain.Parada;
+import rostermetro.domain.ParadaRuta;
 
 /**
  *
@@ -30,7 +29,7 @@ public class PlanoGoogleMaps extends JLabel {
         setPreferredSize(new Dimension(W_GOOGLE, H_GOOGLE));
     }
     
-    public void pintarRuta(Ruta ruta) {
+    public void pintarRuta(RutaConLinea ruta) {
         nuevoThreadPintado = new ThreadPintado(ruta);
         new Thread(new Runnable() {
             @Override
@@ -54,7 +53,8 @@ public class PlanoGoogleMaps extends JLabel {
                 if (imagenIcon != null) {
                     setIcon(new ImageIcon(imagenIcon));
                 } else {
-                    setIcon(Imagen ruta inexistente);//ToDo: @miguel icono ruta inexistente
+                    //setIcon(Imagen ruta inexistente); 
+                    //ToDo: @miguel icono ruta inexistente
                 }
             }
         });
@@ -63,9 +63,9 @@ public class PlanoGoogleMaps extends JLabel {
     class ThreadPintado extends Thread {
         
         private boolean pintando = true;
-        private Ruta ruta;
+        private RutaConLinea ruta;
         
-        public ThreadPintado(Ruta ruta) {
+        public ThreadPintado(RutaConLinea ruta) {
             this.ruta = ruta;
         }
         
@@ -76,20 +76,28 @@ public class PlanoGoogleMaps extends JLabel {
         @Override
         public void run() {
             if (ruta != null) {
-                List<Parada> listadoParadas = ruta.getListadoParadas();
-                Parada pInicial = null;
-                Parada pFinal = null;
-                if (listadoParadas.size() > 0) {
-                    pInicial = listadoParadas.get(0);
-                }
-                if (listadoParadas.size() > 1) {
-                    pFinal = listadoParadas.get(listadoParadas.size() - 1);
-                } else {
-                    pFinal = pInicial;
+                List<ParadaRuta> listadoParadas = ruta.getParadasRuta();
+
+                if(listadoParadas == null) {
+                    parar();
                 }
                 
-                if (pFinal == null || pInicial == null) {
-                    parar();
+                Parada pInicial = null;
+                Parada pFinal = null;
+                if (isPintando()) {
+                    
+                    if (listadoParadas.size() > 0) {
+                        pInicial = listadoParadas.get(0);
+                    }
+                    if (listadoParadas.size() > 1) {
+                        pFinal = listadoParadas.get(listadoParadas.size() - 1);
+                    } else {
+                        pFinal = pInicial;
+                    }
+
+                    if (pFinal == null || pInicial == null) {
+                        parar();
+                    }
                 }
                 
                 if (isPintando()) {
@@ -102,7 +110,7 @@ public class PlanoGoogleMaps extends JLabel {
                     }
                     if (isPintando()) {
                         if(imagenPlano==null){
-                            dibujarImageIcon(Imagen error de red);
+                            //ToDo: dibujarImageIcon(Imagen error de red);
                         }else{
                             dibujarImageIcon(imagenPlano);
                         }
