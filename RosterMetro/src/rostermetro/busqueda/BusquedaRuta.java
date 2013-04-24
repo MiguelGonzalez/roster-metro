@@ -67,7 +67,6 @@ public class BusquedaRuta {
         if (abierta.isEmpty()) {
             calculada = null;//Not found
         } else if (abierta.peek().getClave().equals(paradaFinal)) {
-
             calculada = calcularRutaFinal();
         } else {
 
@@ -88,7 +87,9 @@ public class BusquedaRuta {
                             cerrada.remove(nextFAsteriscoCerradas);
                             abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
                         }
-                        sucesorEnCerrada = true;
+                            sucesorEnCerrada = true;
+                        
+                        
                     }
                 }//Fin while
                 //El sucesor no estaba en la cerrada, lo añadimos a la abierta

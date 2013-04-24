@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  *
@@ -47,8 +48,8 @@ public class Parada {
         return correspondencias;
     }
 
-    public List<Parada> getSucesores() {
-        ArrayList<Parada> sucesores = new ArrayList<>();
+    public Set<Parada> getSucesores() {
+        Set<Parada> sucesores = new HashSet<> ();
         for (Linea correspondencia : getCorrespondencias()) {
             sucesores.addAll(correspondencia.getParadasQueRodean(this));
         }
