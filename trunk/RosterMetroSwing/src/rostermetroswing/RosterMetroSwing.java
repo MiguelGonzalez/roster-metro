@@ -113,7 +113,7 @@ public class RosterMetroSwing extends JFrame {
             @Override
             public void run() {
 
-                Ruta ruta = new BusquedaRuta().calcularRuta(pInicial, pFinal);
+                RutaConLinea ruta = new BusquedaRuta().calcularRuta(pInicial, pFinal);
                 if (ruta != null) {
                     rutaJTable.setModel(new TablaRutaModel(ruta));
                     planoMetroDibujo.pintarRuta(ruta);
