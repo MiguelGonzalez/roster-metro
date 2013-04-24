@@ -120,11 +120,6 @@ public class RosterMetroSwing extends JFrame {
                 } else {
                     rutaJTable.setModel(new TablaRutaModel(null));
                     planoMetroDibujo.pintarRuta(null);
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "No route",
-                            "No hay ruta",
-                            JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
