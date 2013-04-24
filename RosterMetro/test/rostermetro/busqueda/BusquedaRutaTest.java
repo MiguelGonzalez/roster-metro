@@ -52,7 +52,7 @@ public class BusquedaRutaTest {
     @Test
     public void testCalcularRuta_Parada_Parada()  {
         try {
-            Plano result = new PlanoKMLParser().parse(Utilidades.getPlanoAsStream(Utilidades.Plano.METRO_MADRID_KML));
+            Plano result = new PlanoKMLParser().parse(Utilidades.getPlanoAsStream(Utilidades.PlanoAlmacenado.METRO_MADRID_KML));
             Ruta calcularRuta = new BusquedaRuta().calcularRuta(result.getParada("Sol Metro"), result.getParada("Aluche Metro"));
             System.out.println("RUTA CALCULADA\n"+calcularRuta);
         } catch (IOException | SAXException ex) {

@@ -46,7 +46,7 @@ public class PlanoKMLParserTest {
     public void testParse() {
         try {
             System.out.println("parse");
-            Plano result = planoMetroKmlParser.parse(Utilidades.getPlanoAsStream(Utilidades.Plano.CERCANIAS_MADRID_KML));
+            Plano result = planoMetroKmlParser.parse(Utilidades.getPlanoAsStream(Utilidades.PlanoAlmacenado.CERCANIAS_MADRID_KML));
             assertNotNull(result);
             System.out.println(result);
         } catch (IOException | SAXException ex) {
