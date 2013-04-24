@@ -1,7 +1,10 @@
 package rostermetro.busqueda;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import rostermetro.busqueda.BusquedaRuta.TipoRuta;
 import rostermetro.domain.Parada;
 
@@ -46,7 +49,7 @@ public class FilaAAsterisco implements Comparable<FilaAAsterisco> {
     }
 
     public List<FilaAAsterisco> getSucesores() {
-        List<FilaAAsterisco> sucesores = new ArrayList<>();
+        List<FilaAAsterisco> sucesores = new LinkedList<>();
         for (Parada parada : clave.getSucesores()) {
             FilaAAsterisco sucesor = new FilaAAsterisco(
                     parada, this, paradaFinal);
