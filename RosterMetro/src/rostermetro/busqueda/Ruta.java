@@ -1,18 +1,18 @@
-package rostermetro.busqueda;
+package rostermetro.busqueda.commons;
 
 import java.util.Arrays;
 import java.util.List;
 import rostermetro.domain.Parada;
 
-public class Ruta {
+public abstract class Ruta<T extends Parada> {
 
-    private List<Parada> paradas;
+    private List<T> paradas;
 
-    public Ruta(List<Parada> paradas) {
+    public Ruta(List<T> paradas) {
         this.paradas = paradas;
     }
 
-    public List<Parada> getListadoParadas() {
+    public List<T> getListadoParadas() {
         return paradas;
     }
 
