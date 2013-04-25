@@ -8,7 +8,9 @@ import java.util.logging.*;
 import javax.swing.*;
 import org.xml.sax.*;
 import rostermetro.*;
-import rostermetro.busqueda.*;
+import rostermetro.busqueda.commons.Ruta;
+import rostermetro.busqueda.conLinea.BusquedaRutaConLinea;
+import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
 import rostermetro.domain.*;
 import rostermetro.parsers.*;
 import rostermetroswing.components.*;
@@ -100,7 +102,13 @@ public class RosterMetroSwing extends JFrame {
 
         JPanel panelCentro = new JPanel(new BorderLayout());
         panelCentro.add(panelSuperiorCentro, BorderLayout.NORTH);
-        panelCentro.add(planoMetroDibujo, BorderLayout.CENTER);
+        
+        JPanel centradoVertical = new JPanel(new BorderLayout());
+        
+        JPanel mapsCentrado = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        mapsCentrado.add(planoMetroDibujo);
+        centradoVertical.add(mapsCentrado, BorderLayout.CENTER);
+        panelCentro.add(centradoVertical, BorderLayout.CENTER);
 
         principal.add(panelCentro, BorderLayout.CENTER);
         container.add(principal);
@@ -112,15 +120,9 @@ public class RosterMetroSwing extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-
-                RutaConLinea ruta = new BusquedaRuta().calcularRuta(pInicial, pFinal);
-                if (ruta != null) {
-                    rutaJTable.setModel(new TablaRutaModel(ruta));
-                    planoMetroDibujo.pintarRuta(ruta);
-                } else {
-                    rutaJTable.setModel(new TablaRutaModel(null));
-                    planoMetroDibujo.pintarRuta(null);
-                }
+                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea().calcularRuta(pInicial, pFinal);
+                rutaJTable.setModel(new TablaRutaModel(ruta));
+                planoMetroDibujo.pintarRuta(ruta);
             }
         });
     }

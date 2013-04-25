@@ -3,33 +3,38 @@ package rostermetroswing.components;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import rostermetro.busqueda.RutaConLinea;
+import javax.swing.UIManager;
+import javax.swing.plaf.OptionPaneUI;
+import rostermetro.busqueda.commons.Ruta;
 import rostermetro.domain.Coordenada;
 import rostermetro.domain.Parada;
-import rostermetro.domain.ParadaRuta;
+import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
 
 /**
  *
  * @author Ceura
  */
 public class PlanoGoogleMaps extends JLabel {
-    
+
     private ThreadPintado threadPintadoActual;
     private ThreadPintado nuevoThreadPintado;
     private static final int W_GOOGLE = 640;
     private static final int H_GOOGLE = 480;
-    
+
     public PlanoGoogleMaps() {
         threadPintadoActual = new ThreadPintado(null);
         setPreferredSize(new Dimension(W_GOOGLE, H_GOOGLE));
     }
-    
-    public void pintarRuta(RutaConLinea ruta) {
+
+    public void pintarRuta(Ruta ruta) {
         nuevoThreadPintado = new ThreadPintado(ruta);
         new Thread(new Runnable() {
             @Override
@@ -44,48 +49,43 @@ public class PlanoGoogleMaps extends JLabel {
             }
         }).start();
     }
-    
-    public void dibujarImageIcon(final Image imagenIcon) {
-        
+
+    public void dibujarIcon(final Icon icon) {
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                if (imagenIcon != null) {
-                    setIcon(new ImageIcon(imagenIcon));
-                } else {
-                    //setIcon(Imagen ruta inexistente); 
-                    //ToDo: @miguel icono ruta inexistente
-                }
+                setIcon(icon);
             }
         });
     }
-    
+
     class ThreadPintado extends Thread {
-        
+
         private boolean pintando = true;
-        private RutaConLinea ruta;
-        
-        public ThreadPintado(RutaConLinea ruta) {
+        private Ruta ruta;
+
+        public ThreadPintado(Ruta ruta) {
             this.ruta = ruta;
         }
-        
+
         public void parar() {
             setPintando(false);
         }
-        
+
         @Override
         public void run() {
             if (ruta != null) {
-                List<ParadaRuta> listadoParadas = ruta.getParadasRuta();
+                List<Parada> listadoParadas = ruta.getListadoParadas();
 
-                if(listadoParadas == null) {
+                if (listadoParadas == null) {
                     parar();
                 }
-                
+
                 Parada pInicial = null;
                 Parada pFinal = null;
                 if (isPintando()) {
-                    
+
                     if (listadoParadas.size() > 0) {
                         pInicial = listadoParadas.get(0);
                     }
@@ -99,53 +99,63 @@ public class PlanoGoogleMaps extends JLabel {
                         parar();
                     }
                 }
-                
+
                 if (isPintando()) {
-                    
-                    Image imagenPlano = getMap(pInicial, pFinal, W_GOOGLE, H_GOOGLE);
+
+                    Image imagenPlano = getMap(pInicial, pFinal);
 
                     //Hack, algunas veces no lee a la primera vez
                     if (imagenPlano == null) {
-                        imagenPlano = getMap(pInicial, pFinal, W_GOOGLE, H_GOOGLE);
+                        imagenPlano = getMap(pInicial, pFinal);
                     }
                     if (isPintando()) {
-                        if(imagenPlano==null){
-                            //ToDo: dibujarImageIcon(Imagen error de red);
-                        }else{
-                            dibujarImageIcon(imagenPlano);
+                        if (imagenPlano == null) {
+                            ImageIcon ic;
+                            ic = new ImageIcon();
+                            dibujarIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                        } else {
+                            dibujarIcon(new ImageIcon(imagenPlano));
                         }
                     }
                 }
             } else {
-                dibujarImageIcon(null);
+                dibujarIcon(UIManager.getIcon("OptionPane.questionIcon"));
             }
-            
-            
+
+
         }
         public static final int ZOOM = 12;
-        
+        private HashMap<String, Image> cache = new HashMap<>();
+
         private Image getMap(double latorigen, double lonOrigen, double latDestino, double lonDestino, int width, int height) {
             Image img = null;
+            String url;
             try {
-                String url = "http://maps.google.com/maps/api/staticmap";
-                url += "?zoom=" + ZOOM + "&size=" + width + "x" + height;
+                url = "http://maps.google.com/maps/api/staticmap";
+                url += "?"/*+"zoom=" + ZOOM */ + "&size=" + width + "x" + height;
                 url += "&maptype=roadmap";
-                url += "&markers=color:red|label:Otigen|" + latorigen + "," + lonOrigen;
+                url += "&markers=color:red|label:Origen|" + latorigen + "," + lonOrigen;
                 url += "&markers=color:red|label:Destino|" + latDestino + "," + lonDestino;
                 url += "&sensor=false";
-                img = ImageIO.read(new URL(
-                        url));
+                Image get = cache.get(url);
+                if (get != null) {
+                    img = get;
+                } else {
+                    img = ImageIO.read(new URL(
+                            url));
+                    cache.put(url, img);
+                }
             } catch (Exception ex) {
                 System.out.println("Error!" + ex);
                 //@ToDo: devolver imagen error de red
             }
             return img;
         }
-        
-        private Image getMap(Parada pInicial, Parada pFinal, int width, int height) {
+
+        private Image getMap(Parada pInicial, Parada pFinal) {
             Coordenada cInicial = pInicial.getCoordenada();
             Coordenada cfiNal = pFinal.getCoordenada();
-            return getMap(cInicial.getLatitud(), cInicial.getLongitud(), cfiNal.getLatitud(), cfiNal.getLongitud(), width, height);
+            return getMap(cInicial.getLatitud(), cInicial.getLongitud(), cfiNal.getLatitud(), cfiNal.getLongitud(), W_GOOGLE, H_GOOGLE);
         }
         final Object sinc = new Object();
 
@@ -156,7 +166,7 @@ public class PlanoGoogleMaps extends JLabel {
             synchronized (sinc) {
                 return pintando;
             }
-            
+
         }
 
         /**
