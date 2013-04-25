@@ -60,6 +60,7 @@ public abstract class AbstractPlanoBuilder<P, L> {
             paradas.add(posibleParadaToAdd);
             paradaToAdd = posibleParadaToAdd;
         }
+        //@jaimebarez método feo
         //Añadimos las corespondencias a la parada y la parada a la línea
         paradaToAdd.getCorrespondencias().add(linea);
         linea.getParadas().add(paradaToAdd);

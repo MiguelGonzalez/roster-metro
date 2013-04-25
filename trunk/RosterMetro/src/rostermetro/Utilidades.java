@@ -1,27 +1,28 @@
 package rostermetro;
 
 import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Usada para cargar los ficheros alojados en el paquete.
+ * Usada para cargar los planos alojados en el paquete.
  *
  * @author Jaime Bárez y Miguel González
  */
 public class Utilidades {
 
-    private static List<PlanoAlmacenado> planosAlmacenados = new LinkedList<>();
+    public static class PlanoAlmacenado {
 
-    public static enum PlanoAlmacenado {
+        public static final Set<PlanoAlmacenado> planosAlmacenados = new HashSet<>();
 
-        METRO_MADRID_KML("MadridMetro.kml"),
-        CERCANIAS_MADRID_KML("MadridCercanias.kml");
+        static {
+            planosAlmacenados.add(new PlanoAlmacenado("MadridMetro.kml"));
+            planosAlmacenados.add(new PlanoAlmacenado("MadridCercanias.kml"));
+        }
         private String ruta;
 
-        PlanoAlmacenado(String ruta) {
+        private PlanoAlmacenado(String ruta) {
             this.ruta = ruta;
-            planosAlmacenados.add(this);
         }
 
         @Override
@@ -35,8 +36,7 @@ public class Utilidades {
     }
 
     public static PlanoAlmacenado[] getPlanosAlmacenados() {
-        PlanoAlmacenado e = PlanoAlmacenado.CERCANIAS_MADRID_KML;
-        PlanoAlmacenado[] array = new PlanoAlmacenado[planosAlmacenados.size()];
-        return planosAlmacenados.toArray(array);
+        PlanoAlmacenado[] array = new PlanoAlmacenado[PlanoAlmacenado.planosAlmacenados.size()];
+        return PlanoAlmacenado.planosAlmacenados.toArray(array);
     }
 }

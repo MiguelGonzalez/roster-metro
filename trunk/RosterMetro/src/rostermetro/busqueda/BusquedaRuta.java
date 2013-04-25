@@ -1,13 +1,11 @@
 package rostermetro.busqueda;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Set;
+import rostermetro.busqueda.commons.Ruta;
 import rostermetro.domain.Parada;
 
 /**
@@ -15,24 +13,24 @@ import rostermetro.domain.Parada;
  *
  * @author Jaime Bárez y Miguel González
  */
-public class BusquedaRuta {
+public abstract class BusquedaRuta<T extends Ruta>{
 
     public static enum TipoRuta {
 
         MAS_CORTA, MAS_LARGA;
     };
     public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
-    private final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
+    protected final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
     private final Set<FilaAAsterisco> cerrada;
-    private Parada paradaInicio;
-    private Parada paradaFinal;
+    protected Parada paradaInicio;
+    protected Parada paradaFinal;
 
     public BusquedaRuta() {
         abierta = new PriorityQueue<>();
         cerrada = new HashSet<>();
     }
 
-    public RutaConLinea calcularRuta(Parada paradaInicio, Parada paradaFinal) {
+    public T calcularRuta(Parada paradaInicio, Parada paradaFinal) {
         return calcularRuta(paradaInicio, paradaFinal, DEFAULT_TIPO_RUTA);
     }
 
@@ -45,17 +43,17 @@ public class BusquedaRuta {
      * @return la ruta entre las dos paradas. null si no existe (líneas o
      * paradas aisladas).
      */
-    public RutaConLinea calcularRuta(Parada paradaInicio, Parada paradaFinal, TipoRuta tipoRuta) {
+    public T calcularRuta(Parada paradaInicio, Parada paradaFinal, TipoRuta tipoRuta) {
         this.paradaInicio = paradaInicio;
         this.paradaFinal = paradaFinal;
         abierta.clear();
         cerrada.clear();
         FilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
         abierta.add(filaInicial);
-        
-        Ruta rutaObtenida = calculaRutaRecursivo();
-        
-        return new RutaConLinea(rutaObtenida);
+
+        T rutaObtenida=  calculaRutaRecursivo();
+        //@jaimebarez
+        return rutaObtenida;
     }
 
     /**
@@ -64,8 +62,8 @@ public class BusquedaRuta {
      *
      * @return
      */
-    private Ruta calculaRutaRecursivo() {
-        Ruta calculada;
+    private T calculaRutaRecursivo() {
+        T calculada;
         if (abierta.isEmpty()) {
             calculada = null;//Not found
         } else if (abierta.peek().getClave().equals(paradaFinal)) {
@@ -89,41 +87,26 @@ public class BusquedaRuta {
                             cerrada.remove(nextFAsteriscoCerradas);
                             abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
                         }
-                            sucesorEnCerrada = true;
-                        
-                        
+                        sucesorEnCerrada = true;
+
+
                     }
                 }//Fin while
                 //El sucesor no estaba en la cerrada, lo añadimos a la abierta
                 if (!sucesorEnCerrada) {
                     abierta.add(sucesor);
                 }
-
             }
             //Seguimos recorriendo
             calculada = calculaRutaRecursivo();
         }
         return calculada;
     }
+
     /**
      * Llamada por calculaRutaRecursivo() una vez hemos encontrado la ruta final
-     * @return 
+     *
+     * @return
      */
-    private Ruta calcularRutaFinal() {
-        FilaAAsterisco ultimaFila = abierta.peek();
-        List<Parada> paradasRuta = new ArrayList<>();
-        
-        FilaAAsterisco aux = ultimaFila;
-        //Recorremos, creando la ruta
-        while (!aux.getClave().equals(paradaInicio)) {
-            paradasRuta.add(aux.getClave());
-
-            aux = aux.getAnterior();
-        }
-        paradasRuta.add(aux.getClave());
-        //Damos la vuelta a la lista, ya quela hemos recorrido en sentido contrario
-        Collections.reverse(paradasRuta);
-
-        return new Ruta(paradasRuta);
-    }
+    protected abstract T calcularRutaFinal();
 }

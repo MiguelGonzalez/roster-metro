@@ -26,6 +26,7 @@ public class PlanoKMLBuilder extends AbstractPlanoBuilder<Placemark, Folder> {
 
     @Override
     protected Parada createParada(Placemark paradaGeneric) {
+        //System.out.println(paradaGeneric.getStyles()[0].getIconStyle().getColor());
         return new Parada(paradaGeneric.getName(), getCoordenada(paradaGeneric));
     }
 }
