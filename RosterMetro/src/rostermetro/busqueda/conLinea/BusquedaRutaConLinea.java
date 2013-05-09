@@ -1,12 +1,10 @@
 package rostermetro.busqueda.conLinea;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.collections.ArrayStack;
 import rostermetro.busqueda.BusquedaRuta;
 import rostermetro.busqueda.commons.Ruta;
 import rostermetro.busqueda.simple.BusquedaRutaSimple;
@@ -112,10 +110,12 @@ public class BusquedaRutaConLinea extends BusquedaRuta< Ruta<ParadaRutaConLinea>
         return new RutaConLinea(paradasRuta);
     }
 
-    private Set<Linea> lineasAlcanzanSiguienteParada(Parada paradaOrigen,
+    //TODO MAL NOMBRE
+    public static Set<Linea> lineasAlcanzanSiguienteParada(Parada paradaOrigen,
             Parada paradaDestino) {
 
         Set<Linea> lineasAlcanzanSiguienteParada = new HashSet<>(paradaOrigen.getCorrespondencias());
+        //Interseccion
         lineasAlcanzanSiguienteParada.retainAll(paradaDestino.getCorrespondencias());
         return lineasAlcanzanSiguienteParada;
     }
