@@ -17,7 +17,7 @@ public abstract class BusquedaRuta<T extends Ruta>{
 
     public static enum TipoRuta {
 
-        MAS_CORTA, MAS_LARGA;
+        MAS_CORTA, MAS_LARGA, MENOS_TIEMPO;
     };
     public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
     protected final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
@@ -83,7 +83,7 @@ public abstract class BusquedaRuta<T extends Ruta>{
                     FilaAAsterisco nextFAsteriscoCerradas = cerradaIterator.next();
 
                     if (Objects.equals(nextFAsteriscoCerradas.getClave(), sucesor.getClave())) {//Existe la clave en la lista cerrada
-                        if (sucesor.compareTo(nextFAsteriscoCerradas) < 0) {
+                        if (sucesor.compareTo(nextFAsteriscoCerradas) > 0) {
                             cerrada.remove(nextFAsteriscoCerradas);
                             abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
                         }
