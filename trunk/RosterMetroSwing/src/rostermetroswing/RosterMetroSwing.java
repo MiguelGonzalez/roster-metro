@@ -8,6 +8,7 @@ import java.util.logging.*;
 import javax.swing.*;
 import org.xml.sax.*;
 import rostermetro.*;
+import rostermetro.busqueda.BusquedaRuta;
 import rostermetro.busqueda.commons.Ruta;
 import rostermetro.busqueda.conLinea.BusquedaRutaConLinea;
 import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
@@ -25,6 +26,7 @@ public class RosterMetroSwing extends JFrame {
     private Plano plano;
     private JComboBox<Parada> origenCBox;
     private JComboBox<Parada> destinoCBox;
+    private JComboBox<BusquedaRuta.TipoRuta> tiposRutasCBox;
     private JComboBox<Utilidades.PlanoAlmacenado> planoComboBox;
     private JTable rutaJTable;
     private PlanoGoogleMaps planoMetroDibujo;
@@ -63,6 +65,8 @@ public class RosterMetroSwing extends JFrame {
         planoComboBox = new JComboBox<>(new DefaultComboBoxModel<>(Utilidades.getPlanosAlmacenados()));
         origenCBox = new JComboBox<>();
         destinoCBox = new JComboBox<>();
+        tiposRutasCBox = new JComboBox<>(BusquedaRuta.TipoRuta.values());
+        
         rutaJTable = new JTable();
 
         planoMetroDibujo = new PlanoGoogleMaps();
@@ -85,6 +89,7 @@ public class RosterMetroSwing extends JFrame {
         });
         origenCBox.addActionListener(muestraRuta);
         destinoCBox.addActionListener(muestraRuta);
+        tiposRutasCBox.addActionListener(muestraRuta);
 
     }
 
@@ -93,6 +98,7 @@ public class RosterMetroSwing extends JFrame {
         JPanel principal = new JPanel(new BorderLayout());
         JPanel panelIzquierda = new JPanel(new BorderLayout());
         panelIzquierda.add(new JScrollPane(rutaJTable), BorderLayout.CENTER);
+        panelIzquierda.add(tiposRutasCBox, BorderLayout.SOUTH);
         principal.add(panelIzquierda, BorderLayout.WEST);
 
         JPanel panelSuperiorCentro = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -120,7 +126,7 @@ public class RosterMetroSwing extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea().calcularRuta(pInicial, pFinal);
+                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea().calcularRuta(pInicial, pFinal, (BusquedaRuta.TipoRuta)tiposRutasCBox.getSelectedItem());
                 rutaJTable.setModel(new TablaRutaModel(ruta));
                 planoMetroDibujo.pintarRuta(ruta);
             }
