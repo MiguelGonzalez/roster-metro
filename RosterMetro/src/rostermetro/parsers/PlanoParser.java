@@ -11,7 +11,8 @@ import rostermetro.planoBuilders.AbstractPlanoBuilder;
 import rostermetro.domain.Plano;
 
 /**
- *
+ * Clase abstracta utilizada por los parseadores para construir el objeto Plano,
+ * permitiría implementar cargadores de KML, txt, excel, etc.
  * @author Jaime Bárez y Miguel González
  */
 public abstract class PlanoParser {
@@ -32,9 +33,6 @@ public abstract class PlanoParser {
         return parse(new FileReader(file));
     }
 
-    /**
-     * @return the planoMetroBuilder
-     */
     public AbstractPlanoBuilder getPlanoMetroBuilder() {
         return planoMetroBuilder;
     }

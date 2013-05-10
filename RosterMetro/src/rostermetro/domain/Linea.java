@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Contiene un listado ordenado de paradas, puede ser circular si el nombre
+ * de la línea acaba en Circular.
+ * 
  * @author Jaime Bárez y Miguel González
  */
 public class Linea {
@@ -64,6 +66,11 @@ public class Linea {
 
     }
 
+    /**
+     * Devuelve las paradas a las que se puede llegar desde la actual.
+     * @param parada
+     * @return 
+     */
     public List<Parada> getParadasQueRodean(Parada parada) {
         List<Parada> sucesores = new LinkedList<>();
         if (tieneAnterior(parada)) {

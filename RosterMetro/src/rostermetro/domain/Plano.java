@@ -7,7 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- *
+ * Representa toda la red de líneas y paradas.
+ * 
  * @author Jaime Bárez y Miguel González
  */
 public class Plano {
@@ -22,23 +23,14 @@ public class Plano {
         this.paradas = Collections.unmodifiableSet(paradas);
     }
 
-    /**
-     * @return the nombre
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * @return the lineas
-     */
     public Collection<Linea> getLineas() {
         return lineas;
     }
 
-    /**
-     * @return the paradas
-     */
     public Collection<Parada> getParadas() {
         return paradas;
     }
@@ -86,5 +78,4 @@ public class Plano {
         }
         return str.toString();
     }
-    
 }
