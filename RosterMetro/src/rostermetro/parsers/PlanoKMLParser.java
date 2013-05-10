@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.Reader;
 import org.xml.sax.SAXException;
 import rostermetro.domain.Plano;
-import rostermetro.builders.AbstractPlanoBuilder;
-import rostermetro.builders.PlanoKMLBuilder;
+import rostermetro.planoBuilders.AbstractPlanoBuilder;
+import rostermetro.planoBuilders.PlanoKMLBuilder;
 
 /**
  *
@@ -27,7 +27,6 @@ public class PlanoKMLParser extends PlanoParser {
 
         Kml parsedKML = new KMLParser().parse(reader);
         AbstractPlanoBuilder planoMetroBuilder = getPlanoMetroBuilder();
-        planoMetroBuilder.flush();
         Folder[] lineasKML;
         String tituloPlano;
 

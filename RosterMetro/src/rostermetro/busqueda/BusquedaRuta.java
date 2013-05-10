@@ -1,58 +1,62 @@
+/**
+ * Paquete dedicado a la búsqueda de rutas
+ */
 package rostermetro.busqueda;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Set;
-import rostermetro.busqueda.commons.Ruta;
-import rostermetro.domain.Parada;
+import java.util.*;
+import rostermetro.domain.*;
 
 /**
+ *
  * Clase que se encarga de buscar la ruta entre dos paradas
  *
  * @author Jaime Bárez y Miguel González
+ * @param <R> Tipo de ruta
  */
-public abstract class BusquedaRuta<T extends Ruta>{
+public abstract class BusquedaRuta<R extends Ruta> {
 
     public static enum TipoRuta {
 
-        MAS_CORTA, MAS_LARGA, MENOS_TIEMPO;
+        MAS_CORTA, MENOS_TIEMPO, MENOS_TRASBORDOS;
     };
     public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
+    //
+    //
+    private final HashMap<Parada, FilaAAsterisco> cerrada;
     protected final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
-    private final Set<FilaAAsterisco> cerrada;
-    protected Parada paradaInicio;
-    protected Parada paradaFinal;
+    protected final Parada paradaInicio;
+    protected final Parada paradaFinal;
 
-    public BusquedaRuta() {
+    public BusquedaRuta(Parada paradaInicio, Parada paradaFinal) {
         abierta = new PriorityQueue<>();
-        cerrada = new HashSet<>();
-    }
-
-    public T calcularRuta(Parada paradaInicio, Parada paradaFinal) {
-        return calcularRuta(paradaInicio, paradaFinal, DEFAULT_TIPO_RUTA);
+        cerrada = new HashMap<>();
+        this.paradaInicio = paradaInicio;
+        this.paradaFinal = paradaFinal;
     }
 
     /**
-     * Calcula la ruta dados unos parámetros necesarios de entrada
+     * Calcula la ruta por defecto
      *
-     * @param paradaInicio
-     * @param paradaFinal
-     * @param tipoRuta
-     * @return la ruta entre las dos paradas. null si no existe (líneas o
-     * paradas aisladas).
+     * @return
      */
-    public T calcularRuta(Parada paradaInicio, Parada paradaFinal, TipoRuta tipoRuta) {
-        this.paradaInicio = paradaInicio;
-        this.paradaFinal = paradaFinal;
-        abierta.clear();
-        cerrada.clear();
+    public R calcularRuta() {
+        return calcularRuta(DEFAULT_TIPO_RUTA);
+    }
+
+    /**
+     * Calcula la ruta dado el tipo de ruta a buscar
+     *
+     * @param tipoRuta
+     * @return
+     */
+    public R calcularRuta(TipoRuta tipoRuta) {
         FilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
         abierta.add(filaInicial);
 
-        T rutaObtenida=  calculaRutaRecursivo();
-        //@jaimebarez
+        R rutaObtenida = calculaRutaRecursivo();
+
+        abierta.clear();
+        cerrada.clear();
         return rutaObtenida;
     }
 
@@ -62,38 +66,29 @@ public abstract class BusquedaRuta<T extends Ruta>{
      *
      * @return
      */
-    private T calculaRutaRecursivo() {
-        T calculada;
+    private R calculaRutaRecursivo() {
+        R calculada;
         if (abierta.isEmpty()) {
             calculada = null;//Not found
         } else if (abierta.peek().getClave().equals(paradaFinal)) {
             calculada = calcularRutaFinal();
         } else {
-
             FilaAAsterisco filaATratar = abierta.poll();
-            cerrada.add(filaATratar);
-
+            cerrada.put(filaATratar.getClave(), filaATratar);
+            //
             for (FilaAAsterisco sucesor : filaATratar.getSucesores()) {
 
-                //No añadiremos el sucesor a la lista abierta si ya está en la lista cerrada, a no ser que tenga menor F
-                boolean sucesorEnCerrada = false;
-                Iterator<FilaAAsterisco> cerradaIterator = cerrada.iterator();
-                while (cerradaIterator.hasNext() && !sucesorEnCerrada) {//Buscamos la clave en la lista de cerradas
+                Parada sucesorClave = sucesor.getClave();
+                FilaAAsterisco mismoEnCerrada= cerrada.get(sucesor.getClave());
 
-                    FilaAAsterisco nextFAsteriscoCerradas = cerradaIterator.next();
-
-                    if (Objects.equals(nextFAsteriscoCerradas.getClave(), sucesor.getClave())) {//Existe la clave en la lista cerrada
-                        if (sucesor.compareTo(nextFAsteriscoCerradas) > 0) {
-                            cerrada.remove(nextFAsteriscoCerradas);
-                            abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
-                        }
-                        sucesorEnCerrada = true;
-
-
+                if (mismoEnCerrada!=null) {//Existe la clave en la lista cerrada
+                    if (sucesor.compareTo(mismoEnCerrada) < 0) {
+                        cerrada.remove(sucesorClave);
+                        abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
                     }
-                }//Fin while
+                }
                 //El sucesor no estaba en la cerrada, lo añadimos a la abierta
-                if (!sucesorEnCerrada) {
+                else  {
                     abierta.add(sucesor);
                 }
             }
@@ -108,5 +103,22 @@ public abstract class BusquedaRuta<T extends Ruta>{
      *
      * @return
      */
-    protected abstract T calcularRutaFinal();
+    protected R calcularRutaFinal(){
+        FilaAAsterisco ultimaFila = abierta.peek();
+        List<Parada> paradasRuta = new ArrayList<>();
+
+        FilaAAsterisco aux = ultimaFila;
+        //Recorremos, creando la ruta
+        while (!aux.getClave().equals(paradaInicio)) {
+            paradasRuta.add(aux.getClave());
+
+            aux = aux.getAnterior();
+        }
+        paradasRuta.add(aux.getClave());
+        //Damos la vuelta a la lista, ya que la hemos recorrido en sentido contrario
+        Collections.reverse(paradasRuta);
+
+        return getRfromList(paradasRuta);
+    };
+    protected abstract R getRfromList(List<Parada> paradasRuta);
 }

@@ -1,6 +1,7 @@
 package rostermetro.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -11,12 +12,15 @@ import java.util.Objects;
  */
 public class Linea {
 
+    public static final String CIRCULAR = "Circular";
     private final String nombre;
     private final List<Parada> paradas;
+    private final boolean circular;
 
     public Linea(String nombre) {
         this.nombre = nombre;
         this.paradas = new ArrayList<>();
+        circular = nombre.endsWith(CIRCULAR);
     }
 
     public String getNombre() {
@@ -24,23 +28,39 @@ public class Linea {
     }
 
     public List<Parada> getParadas() {
-        return paradas;
+        return Collections.unmodifiableList(paradas);
     }
 
     private boolean tieneAnterior(Parada parada) {
-        return paradas.indexOf(parada) > 0;
+        if(circular){
+            return true;
+        } else{
+            return paradas.indexOf(parada) > 0;
+        }
     }
 
     private Parada getAnteriorParada(Parada parada) {
-        return paradas.get(paradas.indexOf(parada) - 1);
+        int index = paradas.indexOf(parada) - 1;
+        if(circular && index<0){
+            index =paradas.size()+index;
+        }
+        return paradas.get(index);
     }
 
     private boolean tieneSiguiente(Parada parada) {
-        return paradas.indexOf(parada) != paradas.size() - 1;
+        if(circular){
+            return true;
+        } else{
+            return paradas.indexOf(parada) != paradas.size() - 1;
+        }
     }
 
     private Parada getSiguienteParada(Parada parada) {
-        return paradas.get(paradas.indexOf(parada) + 1);
+        int index = paradas.indexOf(parada) + 1;
+        if(circular && index>=paradas.size()){
+            index =index%paradas.size();
+        }
+        return paradas.get(index);
 
     }
 
@@ -80,5 +100,9 @@ public class Linea {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    public void addParada(Parada paradaToAdd) {
+        paradas.add(paradaToAdd);
     }
 }

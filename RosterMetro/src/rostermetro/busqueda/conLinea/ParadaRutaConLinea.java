@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rostermetro.busqueda.conLinea;
 
 import rostermetro.domain.Coordenada;
@@ -10,7 +6,7 @@ import rostermetro.domain.Parada;
 
 /**
  *
- * @author paracaidista
+ * @author Jaime Bárez y Miguel González
  */
 public class ParadaRutaConLinea extends Parada {
     
