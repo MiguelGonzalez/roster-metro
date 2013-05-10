@@ -1,5 +1,6 @@
 package rostermetroswing;
 
+import rostermetro.utilidades.Utilidades;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -7,11 +8,8 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import org.xml.sax.*;
-import rostermetro.*;
-import rostermetro.busqueda.BusquedaRuta;
-import rostermetro.busqueda.commons.Ruta;
-import rostermetro.busqueda.conLinea.BusquedaRutaConLinea;
-import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
+import rostermetro.busqueda.*;
+import rostermetro.busqueda.conLinea.*;
 import rostermetro.domain.*;
 import rostermetro.parsers.*;
 import rostermetroswing.components.*;
@@ -96,9 +94,11 @@ public class RosterMetroSwing extends JFrame {
     private void initInterfaz() {
         Container container = getContentPane();
         JPanel principal = new JPanel(new BorderLayout());
+        
         JPanel panelIzquierda = new JPanel(new BorderLayout());
         panelIzquierda.add(new JScrollPane(rutaJTable), BorderLayout.CENTER);
         panelIzquierda.add(tiposRutasCBox, BorderLayout.SOUTH);
+        
         principal.add(panelIzquierda, BorderLayout.WEST);
 
         JPanel panelSuperiorCentro = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -126,7 +126,7 @@ public class RosterMetroSwing extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea().calcularRuta(pInicial, pFinal, (BusquedaRuta.TipoRuta)tiposRutasCBox.getSelectedItem());
+                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea(pInicial, pFinal).calcularRuta((BusquedaRuta.TipoRuta)tiposRutasCBox.getSelectedItem());
                 rutaJTable.setModel(new TablaRutaModel(ruta));
                 planoMetroDibujo.pintarRuta(ruta);
             }

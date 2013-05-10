@@ -1,7 +1,7 @@
 package rostermetroswing.model;
 
 import javax.swing.table.AbstractTableModel;
-import rostermetro.busqueda.commons.Ruta;
+import rostermetro.busqueda.Ruta;
 import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
 import rostermetro.domain.Linea;
 
