@@ -6,8 +6,10 @@ import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
 import rostermetro.domain.Linea;
 
 /**
- *
- * @author Ceura
+ * Modelo de la tabla que representa la información de una ruta (paradas y líneas
+ * por la que pasa).
+ * 
+ * @author Jaime Bárez y Miguel González
  */
 public class TablaRutaModel extends AbstractTableModel {
     private final Ruta<ParadaRutaConLinea> ruta;
@@ -19,7 +21,7 @@ public class TablaRutaModel extends AbstractTableModel {
     
     @Override
     public int getRowCount() {
-        return ruta!=null?ruta.getListadoParadas().size():0;
+        return ruta!=null?ruta.getListadoParadas().size():1;
     }
     
     @Override
@@ -33,7 +35,7 @@ public class TablaRutaModel extends AbstractTableModel {
             return ruta!=null?ruta.getListadoParadas().get(rowIndex).getNombre():"No existe ruta";
         } else {
             if(ruta==null){
-                return "";
+                return "No hay ruta";
             } else{
                 Linea linea = ruta.getListadoParadas().get(rowIndex).getLinea();
                 if(linea ==null){

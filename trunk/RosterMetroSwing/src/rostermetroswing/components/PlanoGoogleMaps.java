@@ -8,20 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.OptionPaneUI;
 import rostermetro.busqueda.Ruta;
 import rostermetro.domain.Coordenada;
 import rostermetro.domain.Parada;
 
 /**
- *
- * @author Ceura
+ * Objeto que recibe una ruta y lo representa en un mapa de Google Maps (necesaria
+ * conexión a Internet).
+ * Además, por eficiencia, implementa una caché de últimos mapas buscados.
+ * 
+ * @author Jaime Bárez y Miguel González
  */
 public class PlanoGoogleMaps extends JLabel {
 
@@ -29,6 +29,8 @@ public class PlanoGoogleMaps extends JLabel {
     private HashMap<String, Image> cache = new HashMap<>();
     public static final int W_GOOGLE = 640;
     public static final int H_GOOGLE = 480;
+    
+    private static final int MAX_CACHE_MAPAS = 50;
 
     public PlanoGoogleMaps() {
         setPreferredSize(new Dimension(W_GOOGLE, H_GOOGLE));
@@ -55,7 +57,7 @@ public class PlanoGoogleMaps extends JLabel {
 
     synchronized void putInCache(String urlString, Image img) {
         cache.put(urlString, img);
-        if (cache.size() > 50) {
+        if (cache.size() > MAX_CACHE_MAPAS) {
             cache.entrySet().iterator().next();
             cache.entrySet().iterator().remove();
         }
