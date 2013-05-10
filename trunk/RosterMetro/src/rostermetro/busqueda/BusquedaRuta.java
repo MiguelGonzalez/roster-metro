@@ -19,8 +19,8 @@ public abstract class BusquedaRuta<R extends Ruta> {
         MAS_CORTA, MENOS_TRASBORDOS;
     };
     public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
-    private final HashMap<Parada, FilaAAsterisco> cerrada;
-    protected final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
+    private final HashMap<Parada, IFilaAAsterisco> cerrada;
+    protected PriorityQueue<IFilaAAsterisco> abierta;//Lista abierta ordenada
     protected final Parada paradaInicio;
     protected final Parada paradaFinal;
     
@@ -59,7 +59,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * @return R
      */
     public R calcularRuta(TipoRuta tipoRuta) {
-        FilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
+        IFilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
         abierta.add(filaInicial);
 
         R rutaObtenida = calculaRutaRecursivo();
@@ -82,18 +82,19 @@ public abstract class BusquedaRuta<R extends Ruta> {
         } else if (abierta.peek().getClave().equals(paradaFinal)) {
             calculada = calcularRutaFinal();
         } else {
-            FilaAAsterisco filaATratar = abierta.poll();
+            IFilaAAsterisco filaATratar = abierta.poll();
             cerrada.put(filaATratar.getClave(), filaATratar);
             //
-            for (FilaAAsterisco sucesor : filaATratar.getSucesores()) {
-
+            for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
                 Parada sucesorClave = sucesor.getClave();
-                FilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
+                IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
 
                 if (mismoEnCerrada != null) {//Existe la clave en la lista cerrada
                     if (sucesor.compareTo(mismoEnCerrada) < 0) {
                         cerrada.remove(sucesorClave);
+                        sucesor.setAnterior(filaATratar);
                         abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
+                        
                     }
                 } //El sucesor no estaba en la cerrada, lo añadimos a la abierta
                 else {
@@ -112,10 +113,10 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * @return R
      */
     protected R calcularRutaFinal() {
-        FilaAAsterisco ultimaFila = abierta.peek();
+        IFilaAAsterisco ultimaFila = abierta.peek();
         List<Parada> paradasRuta = new ArrayList<>();
 
-        FilaAAsterisco aux = ultimaFila;
+        IFilaAAsterisco aux = ultimaFila;
         //Recorremos, creando la ruta
         while (!aux.getClave().equals(paradaInicio)) {
             paradasRuta.add(aux.getClave());

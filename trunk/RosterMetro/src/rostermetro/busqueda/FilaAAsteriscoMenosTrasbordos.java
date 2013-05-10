@@ -4,7 +4,12 @@
  */
 package rostermetro.busqueda;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import rostermetro.busqueda.conLinea.BusquedaRutaConLinea;
+import rostermetro.busqueda.conLinea.ParadaRutaConLinea;
 import rostermetro.domain.Linea;
 import rostermetro.domain.Parada;
 
@@ -12,35 +17,71 @@ import rostermetro.domain.Parada;
  *
  * @author ceura
  */
-class FilaAAsteriscoMenosTrasbordos extends FilaAAsterisco {
+class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
 
-    public FilaAAsteriscoMenosTrasbordos(Parada clave, FilaAAsterisco anterior, Parada paradaFinal, BusquedaRuta.TipoRuta tipoRuta) {
+    public FilaAAsteriscoMenosTrasbordos(Parada clave, IFilaAAsterisco anterior,
+            Parada paradaFinal, BusquedaRuta.TipoRuta tipoRuta) {
         super(clave, anterior, paradaFinal, tipoRuta);
     }
 
     @Override
-    public double getF() {
-        int trasbordos = getTrasbordos();
-        
-        return trasbordos*100000000000000d + (super.getF());
+    public double getG() {
+        return getTrasbordos(false);
     }
 
-    private int getTrasbordos() {
-        int trasbordos = 0;
-        if (getAnterior() != null) {
-            Parada anteriorP = getAnterior().getClave();
-            trasbordos += (int) ((FilaAAsteriscoMenosTrasbordos)getAnterior()).getTrasbordos();
-            FilaAAsterisco anteriorDeAnterior = getAnterior().getAnterior();
-            if (anteriorDeAnterior != null) {
-                Set<Linea> l1 = anteriorDeAnterior.getClave().getLineasComunes(anteriorP);
-                Set<Linea> l2 = anteriorP.getLineasComunes(getClave());
-                l1.retainAll(l2);
-                int lineasComunes = l1.size();
-                if (lineasComunes <= 0) {
-                    trasbordos++;//abrantes: ruben darío
-                }
-            }
+    @Override
+    public double getH() {
+        if (anterior == null) {
+            return 0;
+        } else {
+            return ((FilaAAsteriscoMenosTrasbordos)anterior).getH() + clave.getDistancia(anterior.getClave());
         }
-        return trasbordos;
+    }
+
+    @Override
+    public double getF() {
+        //System.out.println(getG());
+        /*
+         * Le damos un peso mínimo a la distancia para discriminar
+         * Rutas con el mismo número de transbordos que se están
+         * Alejando del destino final.
+         * Objetivo
+         * Acercar el resultado al menor número de trasbordos y la ruta
+         * más cercana.
+        */ 
+        return getG() + (getH() / 1000000000d);
+    }
+  
+    @Override
+    public int compareTo(IFilaAAsterisco compareTo) {
+        return Double.compare(getF(), ((FilaAAsteriscoMenosTrasbordos)compareTo).getF());
+    }
+    
+    
+
+    public int getTrasbordos(boolean mostrarMensaje) {
+        List<Parada> paradasPasado = new ArrayList<>();
+        
+        IFilaAAsterisco ant = this;
+        while(ant!=null){
+            paradasPasado.add(ant.getClave());
+            ant = ant.getAnterior();
+        }
+        Set<Linea> setL = new HashSet<>();
+        List<ParadaRutaConLinea> listadoParadas;
+        try {
+        listadoParadas = BusquedaRutaConLinea.getRfromListEstatico
+                (paradasPasado).getListadoParadas();
+        } catch(NullPointerException ex) {
+            return 0;
+        }
+        
+        
+       for(ParadaRutaConLinea paradaRutaConLinea :listadoParadas){
+           
+           setL.add(paradaRutaConLinea.getLinea());
+       }
+       return setL.size();
+        
     }
 }
