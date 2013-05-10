@@ -16,7 +16,10 @@ import rostermetroswing.components.*;
 import rostermetroswing.model.*;
 
 /**
- *
+ * Aplicación SWING utlizando la librería RosterMetro para permitir al usuario
+ * buscar una ruta entre dos parádas.
+ * Se muestran los resultados en una tabla y en un mapa de google maps.
+ * 
  * @author Jaime Bárez y Miguel González
  */
 public class RosterMetroSwing extends JFrame {
