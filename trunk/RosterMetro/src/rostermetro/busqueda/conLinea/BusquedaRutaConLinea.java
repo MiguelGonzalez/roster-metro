@@ -6,38 +6,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import rostermetro.busqueda.BusquedaRuta;
-import rostermetro.busqueda.commons.Ruta;
-import rostermetro.busqueda.simple.BusquedaRutaSimple;
+import rostermetro.busqueda.Ruta;
 import rostermetro.domain.Linea;
 import rostermetro.domain.Parada;
 
-public class BusquedaRutaConLinea extends BusquedaRuta< Ruta<ParadaRutaConLinea>> {
+public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>> {
 
-    @Override
-    protected Ruta<ParadaRutaConLinea> calcularRutaFinal() {
-        return getRutaConLinea(BusquedaRutaSimple.calcularFinal(abierta, paradaInicio));
+    public BusquedaRutaConLinea(Parada paradaInicio, Parada paradaFinal) {
+        super(paradaInicio, paradaFinal);
     }
 
-    public Ruta<ParadaRutaConLinea> getRutaConLinea(Ruta ruta) {
-        if (ruta == null) {
-            return null;
-        }
-        List<Parada> paradasRu = ruta.getListadoParadas();
+
+    @Override
+    protected Ruta<ParadaRutaConLinea> getRfromList(List<Parada> paradasRu) {
         if (paradasRu == null) {
             return null;
         }
         //Guardamos la lista de líneas que se van sucediendo y su peso
         List<NodosLinea> listaParadasRutas = new ArrayList<>();
         List<Linea> lineasOptimasEncontradas = null;
-        
+
         for (int i = 0; i < paradasRu.size(); i++) {
             Parada paradaActual = paradasRu.get(i);
             if (i == 0) {
                 //Si es la primera parada
                 Parada paradaSiguiente = paradasRu.listIterator(i).next();
 
-                Set<Linea> lineasQueLlevanSigParada = lineasAlcanzanSiguienteParada(
-                        paradaActual, paradaSiguiente);
+                Set<Linea> lineasQueLlevanSigParada = paradaActual.getLineasComunes(
+                        paradaSiguiente);
 
                 //Agregamos las líneas que nos llevan a la siguiente parada
                 for (Linea linea : lineasQueLlevanSigParada) {
@@ -53,8 +49,7 @@ public class BusquedaRutaConLinea extends BusquedaRuta< Ruta<ParadaRutaConLinea>
             } else {
                 Parada paradaSiguiente = paradasRu.listIterator(i).next();
 
-                Set<Linea> lineasQueLlevanSigParada = lineasAlcanzanSiguienteParada(
-                        paradaActual, paradaSiguiente);
+                Set<Linea> lineasQueLlevanSigParada = paradaActual.getLineasComunes(paradaSiguiente);
 
                 List<NodosLinea> listaParadasRutasSig = new ArrayList<>();
 
@@ -110,15 +105,6 @@ public class BusquedaRutaConLinea extends BusquedaRuta< Ruta<ParadaRutaConLinea>
         return new RutaConLinea(paradasRuta);
     }
 
-    //TODO MAL NOMBRE
-    public static Set<Linea> lineasAlcanzanSiguienteParada(Parada paradaOrigen,
-            Parada paradaDestino) {
-
-        Set<Linea> lineasAlcanzanSiguienteParada = new HashSet<>(paradaOrigen.getCorrespondencias());
-        //Interseccion
-        lineasAlcanzanSiguienteParada.retainAll(paradaDestino.getCorrespondencias());
-        return lineasAlcanzanSiguienteParada;
-    }
 
     private class RutaConLinea extends Ruta<ParadaRutaConLinea> {
 

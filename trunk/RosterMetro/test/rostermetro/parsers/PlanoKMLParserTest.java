@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-import rostermetro.Utilidades;
+import rostermetro.utilidades.Utilidades;
 import rostermetro.domain.Plano;
 
 /**

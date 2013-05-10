@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.xml.sax.SAXException;
-import rostermetro.Utilidades;
+import rostermetro.utilidades.Utilidades;
 import rostermetro.domain.Plano;
 import rostermetro.parsers.PlanoKMLParser;
 

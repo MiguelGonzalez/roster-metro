@@ -3255,7 +3255,7 @@
             </Placemark>
         </Folder>
         <Folder>
-            <name>Madrid Metro Line 6</name>
+            <name>Madrid Metro Line 6 Circular</name>
             <visibility>0</visibility>
             <Placemark id="khPlacemark594">
                 <name>Moncloa Metro</name>
@@ -6533,7 +6533,7 @@
             </Placemark>
         </Folder>
         <Folder>
-            <name>Madrid Metro Line 12 (Metrosur)</name>
+            <name>Madrid Metro Line 12 (Metrosur) Circular</name>
             <visibility>0</visibility>
             <Placemark id="khPlacemark2824">
                 <name>Puerta del Sur Metro</name>

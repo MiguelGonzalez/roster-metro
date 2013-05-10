@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import org.xml.sax.SAXException;
-import rostermetro.builders.AbstractPlanoBuilder;
+import rostermetro.planoBuilders.AbstractPlanoBuilder;
 import rostermetro.domain.Plano;
 
 /**
