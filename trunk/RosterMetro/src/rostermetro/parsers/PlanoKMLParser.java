@@ -13,7 +13,8 @@ import rostermetro.planoBuilders.AbstractPlanoBuilder;
 import rostermetro.planoBuilders.PlanoKMLBuilder;
 
 /**
- *
+ * A partir de un fichero KML y usando la librería gekmlib se construye
+ * un objeto plano con toda la información.
  * @author Jaime Bárez y Miguel González
  */
 public class PlanoKMLParser extends PlanoParser {

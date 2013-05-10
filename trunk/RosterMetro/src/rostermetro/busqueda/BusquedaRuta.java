@@ -16,17 +16,26 @@ import rostermetro.domain.*;
 public abstract class BusquedaRuta<R extends Ruta> {
 
     public static enum TipoRuta {
-
-        MAS_CORTA, MENOS_TIEMPO, MENOS_TRASBORDOS;
+        MAS_CORTA, MENOS_TRASBORDOS;
     };
     public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
-    //
-    //
     private final HashMap<Parada, FilaAAsterisco> cerrada;
     protected final PriorityQueue<FilaAAsterisco> abierta;//Lista abierta ordenada
     protected final Parada paradaInicio;
     protected final Parada paradaFinal;
+    
+    /**
+     * Se llama por calcularRutaFinal para devolver un tipo de ruta que la clase que herede quiera.
+     * @param paradasRuta
+     * @return R
+     */
+    protected abstract R getRfromList(List<Parada> paradasRuta);
 
+    /**
+     * Constructor del objeto
+     * @param paradaInicio Recibe la parada de inicio
+     * @param paradaFinal  Recibe la parada a donde se quiere ir
+     */
     public BusquedaRuta(Parada paradaInicio, Parada paradaFinal) {
         abierta = new PriorityQueue<>();
         cerrada = new HashMap<>();
@@ -37,7 +46,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
     /**
      * Calcula la ruta por defecto
      *
-     * @return
+     * @return R
      */
     public R calcularRuta() {
         return calcularRuta(DEFAULT_TIPO_RUTA);
@@ -47,7 +56,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * Calcula la ruta dado el tipo de ruta a buscar
      *
      * @param tipoRuta
-     * @return
+     * @return R
      */
     public R calcularRuta(TipoRuta tipoRuta) {
         FilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
@@ -64,7 +73,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * LLamado por calcularRuta. Trabaja con una fila inicial en la lista
      * abierta.
      *
-     * @return
+     * @return R
      */
     private R calculaRutaRecursivo() {
         R calculada;
@@ -79,16 +88,15 @@ public abstract class BusquedaRuta<R extends Ruta> {
             for (FilaAAsterisco sucesor : filaATratar.getSucesores()) {
 
                 Parada sucesorClave = sucesor.getClave();
-                FilaAAsterisco mismoEnCerrada= cerrada.get(sucesor.getClave());
+                FilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
 
-                if (mismoEnCerrada!=null) {//Existe la clave en la lista cerrada
+                if (mismoEnCerrada != null) {//Existe la clave en la lista cerrada
                     if (sucesor.compareTo(mismoEnCerrada) < 0) {
                         cerrada.remove(sucesorClave);
                         abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
                     }
-                }
-                //El sucesor no estaba en la cerrada, lo añadimos a la abierta
-                else  {
+                } //El sucesor no estaba en la cerrada, lo añadimos a la abierta
+                else {
                     abierta.add(sucesor);
                 }
             }
@@ -101,9 +109,9 @@ public abstract class BusquedaRuta<R extends Ruta> {
     /**
      * Llamada por calculaRutaRecursivo() una vez hemos encontrado la ruta final
      *
-     * @return
+     * @return R
      */
-    protected R calcularRutaFinal(){
+    protected R calcularRutaFinal() {
         FilaAAsterisco ultimaFila = abierta.peek();
         List<Parada> paradasRuta = new ArrayList<>();
 
@@ -119,6 +127,5 @@ public abstract class BusquedaRuta<R extends Ruta> {
         Collections.reverse(paradasRuta);
 
         return getRfromList(paradasRuta);
-    };
-    protected abstract R getRfromList(List<Parada> paradasRuta);
+    }
 }

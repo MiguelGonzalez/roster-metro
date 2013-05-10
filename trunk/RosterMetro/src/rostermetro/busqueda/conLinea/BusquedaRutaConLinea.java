@@ -1,7 +1,6 @@
 package rostermetro.busqueda.conLinea;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,13 +9,29 @@ import rostermetro.busqueda.Ruta;
 import rostermetro.domain.Linea;
 import rostermetro.domain.Parada;
 
+/**
+ * Calcula la ruta con sus líneas mínimas
+ *
+ * @author Jaime Bárez y Miguel González
+ */
 public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>> {
 
     public BusquedaRutaConLinea(Parada paradaInicio, Parada paradaFinal) {
         super(paradaInicio, paradaFinal);
     }
 
-
+    /**
+     * Esta función se encarga de calcular la ruta con su mínimo número de líneas para
+     * recorrerla.
+     * La técnica consiste en ir agregando a un saco todas las líneas con todas, si la línea
+     * a agregar es distinta a la anterior se considera un transbordo. Al final de cada
+     * parada se calcula el número de trasbordos mínimos y se eliminan aquellos
+     * elementos del saco que superan ese número mínimo.
+     * Al final en el saco quedan las rutas con líneas mínimas y se devuelve
+     * la primera de todas ellas.
+     * @param paradasRu Lista de paradas calculada
+     * @return Ruta<ParadaRutaConLinea>
+     */
     @Override
     protected Ruta<ParadaRutaConLinea> getRfromList(List<Parada> paradasRu) {
         if (paradasRu == null) {
@@ -41,7 +56,7 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
                     listaParadasRutas.add(nodoLinea);
                 }
 
-            } else if (i + 1 == paradasRu.size()) {
+            } else if (i == paradasRu.size() - 1) {
                 if (listaParadasRutas.size() > 0) {
                     listaParadasRutas.get(0).addLinea(null);
                     lineasOptimasEncontradas = listaParadasRutas.get(0).getLineasTotales();
@@ -97,14 +112,12 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
         for (int i = 0; i < lineasOptimasEncontradas.size(); i++) {
             Parada paradaActual = paradasRu.get(i);
 
-
-            ParadaRutaConLinea paradaRuta = new ParadaRutaConLinea(paradaActual.getNombre(), paradaActual.getCoordenada(),
+            ParadaRutaConLinea paradaRuta = new ParadaRutaConLinea(paradaActual,
                     lineasOptimasEncontradas.get(i));
             paradasRuta.add(paradaRuta);
         }
         return new RutaConLinea(paradasRuta);
     }
-
 
     private class RutaConLinea extends Ruta<ParadaRutaConLinea> {
 
@@ -113,6 +126,9 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
         }
     }
 
+    /**
+     * Objeto del saco para el algoritmo de búsqueda de ruta con líneas mínimas.
+     */
     private class NodosLinea {
 
         private List<Linea> lineasRecorridas;

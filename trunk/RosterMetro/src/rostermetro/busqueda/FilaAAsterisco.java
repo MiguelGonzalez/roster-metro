@@ -6,8 +6,9 @@ import rostermetro.busqueda.BusquedaRuta.TipoRuta;
 import rostermetro.domain.Parada;
 
 /**
- * Fila A
+ * Fila AAsterisco
  *
+ * Clase que posee los datos de una fila del algoritmo A*.
  *
  * @author Jaime Bárez y Miguel González
  */
@@ -49,6 +50,10 @@ public class FilaAAsterisco implements Comparable<FilaAAsterisco> {
         return anterior;
     }
 
+    /**
+     * Devuelve los sucesores del nodo actual
+     * @return List<FilaAAsterisco>
+     */
     public List<FilaAAsterisco> getSucesores() {
         List<FilaAAsterisco> sucesores = new LinkedList<>();
         for (Parada parada : clave.getSucesores()) {
