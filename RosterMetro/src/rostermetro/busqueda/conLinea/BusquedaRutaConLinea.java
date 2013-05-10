@@ -34,6 +34,10 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
      */
     @Override
     protected Ruta<ParadaRutaConLinea> getRfromList(List<Parada> paradasRu) {
+        return getRfromListEstatico(paradasRu);
+    }
+
+    public static Ruta<ParadaRutaConLinea> getRfromListEstatico(List<Parada> paradasRu){
         if (paradasRu == null) {
             return null;
         }
@@ -117,51 +121,5 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
             paradasRuta.add(paradaRuta);
         }
         return new RutaConLinea(paradasRuta);
-    }
-
-    private class RutaConLinea extends Ruta<ParadaRutaConLinea> {
-
-        public RutaConLinea(List<ParadaRutaConLinea> paradasRuta) {
-            super(paradasRuta);
-        }
-    }
-
-    /**
-     * Objeto del saco para el algoritmo de búsqueda de ruta con líneas mínimas.
-     */
-    private class NodosLinea {
-
-        private List<Linea> lineasRecorridas;
-        private int numTransbordos;
-
-        public NodosLinea(Linea miLinea) {
-            lineasRecorridas = new ArrayList<>();
-            lineasRecorridas.add(miLinea);
-            numTransbordos = 0;
-        }
-
-        public NodosLinea(NodosLinea nodosLinea) {
-            lineasRecorridas = new ArrayList<>(nodosLinea.getLineasTotales());
-            numTransbordos = nodosLinea.getTransbordos();
-        }
-
-        public Linea getUltimaLinea() {
-            return lineasRecorridas.get(lineasRecorridas.size() - 1);
-        }
-
-        public void addLinea(Linea linea) {
-            if (!getUltimaLinea().equals(linea)) {
-                numTransbordos++;
-            }
-            lineasRecorridas.add(linea);
-        }
-
-        public int getTransbordos() {
-            return numTransbordos;
-        }
-
-        public List<Linea> getLineasTotales() {
-            return lineasRecorridas;
-        }
     }
 }
