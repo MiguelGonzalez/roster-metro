@@ -11,6 +11,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import org.xml.sax.*;
 import rostermetro.busqueda.*;
 import rostermetro.busqueda.conLinea.*;
@@ -48,11 +49,12 @@ public class RosterMetroSwing extends JFrame {
                 buscaParadasSimple.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 buscaParadasSimple.setMinimumSize(MINIMUM);
                 
-                buscaParadasSimple.setLocationRelativeTo(null);
                 
+                buscaParadasSimple.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+                buscaParadasSimple.setLocationRelativeTo(null);
+                buscaParadasSimple.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 buscaParadasSimple.setVisible(true);
-                buscaParadasSimple.pack();
-            }
+                }
         });
     }
 
@@ -126,7 +128,7 @@ public class RosterMetroSwing extends JFrame {
         
         panelIzquierda.setBorder(compoundBorder);
 
-        principal.add(panelIzquierda, BorderLayout.WEST);
+        principal.add(panelIzquierda, BorderLayout.CENTER);
 
         JPanel panelSuperiorCentro = new JPanel(new GridBagLayout());
         
@@ -166,8 +168,6 @@ public class RosterMetroSwing extends JFrame {
         
         
         
-        
-        
         panelSuperiorCentro.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         JPanel panelCentro = new JPanel(new BorderLayout());
@@ -180,10 +180,11 @@ public class RosterMetroSwing extends JFrame {
 
         JPanel mapsCentrado = new JPanel(new GridLayout());
         mapsCentrado.add(planoMetroDibujo);
+        centradoVertical.setBorder(new EtchedBorder(EtchedBorder.RAISED));
         centradoVertical.add(mapsCentrado, BorderLayout.CENTER);
         panelCentro.add(centradoVertical, BorderLayout.CENTER);
 
-        principal.add(panelCentro, BorderLayout.CENTER);
+        principal.add(panelCentro, BorderLayout.EAST);
         container.add(principal);
     }
 
