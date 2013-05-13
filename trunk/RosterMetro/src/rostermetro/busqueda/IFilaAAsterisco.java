@@ -1,6 +1,7 @@
 package rostermetro.busqueda;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -121,6 +122,8 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
             paradasRecorridas.add(ant.getClave());
             ant = ant.getAnterior();
         }
+        //Damos la vuelta a la lista, ya que la hemos recorrido en sentido contrario
+        Collections.reverse(paradasRecorridas);
         return paradasRecorridas;
     }
 
@@ -128,9 +131,11 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
 
     public abstract double getG();
 
-    public final double getF(){
-        return getG()+getH();
-    };
+    public final double getF() {
+        return getG() + getH();
+    }
+
+    ;
 
     /**
      * BusquedaRuta utiliza una PriorityQueue para ordenar las IFilaAAsterisco.

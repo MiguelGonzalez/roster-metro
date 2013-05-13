@@ -70,7 +70,8 @@ public abstract class BusquedaRuta<R extends Ruta> {
             calculada = calcularRutaFinal();
         } else {
             IFilaAAsterisco filaATratar = abierta.poll();
-            
+
+            //TODO devuelve?
             
             cerrada.put(filaATratar.getClave(), filaATratar);
 
@@ -81,17 +82,13 @@ public abstract class BusquedaRuta<R extends Ruta> {
 
                 //Si el sucesor está en la lista cerrada...
                 if (mismoEnCerrada != null) {
-                    //Y tiene menor F que el de la cerrada...
-                    int compareTo =new Double(sucesor.getG()).compareTo(mismoEnCerrada.getG());
+                    int compareTo = Double.compare(sucesor.getG(), mismoEnCerrada.getG());
+                    //Y tiene menor G que el de la cerrada...
                     if (compareTo < 0) {
                         //Actualizamos la entrada
                         cerrada.remove(sucesorClave);
-                        
                         abierta.add(sucesor);
-                    } 
-//                    else if(sucesor.compareTo(mismoEnCerrada) >=0){
-//                        abierta.add(sucesor);
-//                    }
+                    }
                 } else {
                     /*Si no está en la lista cerrada es que aún no ha sido recorrido.
                      * Lo añadimos a la abierta*/
@@ -115,8 +112,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
         IFilaAAsterisco ultimaFila = abierta.peek();
         List<Parada> paradasRuta = ultimaFila.getParadasRecorridas();
 
-        //Damos la vuelta a la lista, ya que la hemos recorrido en sentido contrario
-        Collections.reverse(paradasRuta);
+        
 
         return getRfromList(paradasRuta);
     }
