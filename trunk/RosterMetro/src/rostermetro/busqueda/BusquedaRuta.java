@@ -2,7 +2,6 @@ package rostermetro.busqueda;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 import rostermetro.domain.Parada;
@@ -71,26 +70,8 @@ public abstract class BusquedaRuta<R extends Ruta> {
             calculada = calcularRutaFinal();
         } else {
             IFilaAAsterisco filaATratar = abierta.poll();
-            if(filaATratar.getClave().getNombre().toLowerCase().startsWith("sol")) {
-                System.out.println("");
-            }
-            if(filaATratar.getClave().getNombre().toLowerCase().startsWith("gran")) {
-                int a = 0;
-                
-            }
             
-            //@MIRAR
-//            if (TipoRuta.MENOS_TRASBORDOS.equals(filaATratar.tipoRuta)) {
-//                System.out.println("---------------");
-//                System.out.println("CLAVE= " + filaATratar.getClave());
-//                Parada anterior = null;
-//                if (filaATratar.getAnterior() != null) {
-//                    anterior = filaATratar.getAnterior().getClave();
-//                }
-//                System.out.println("anterior= " + anterior);
-//                System.out.println("f= " + filaATratar.getF());
-//            }
-            //
+            
             cerrada.put(filaATratar.getClave(), filaATratar);
 
             //Recorremos todos los nodos sucesores
@@ -114,9 +95,6 @@ public abstract class BusquedaRuta<R extends Ruta> {
 //                        abierta.add(sucesor);
 //                    }
                 } else {
-                    if(sucesor.getClave().getNombre().toLowerCase().startsWith("gran")){
-                            //System.out.println("");
-                        }
                     /*Si no está en la lista cerrada es que aún no ha sido recorrido.
                      * Lo añadimos a la abierta*/
                     abierta.add(sucesor);

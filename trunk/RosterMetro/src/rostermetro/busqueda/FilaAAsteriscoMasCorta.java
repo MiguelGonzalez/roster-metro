@@ -49,14 +49,4 @@ public class FilaAAsteriscoMasCorta extends IFilaAAsterisco {
     public double getG() {
         return getDistanciaRecorrida();
     }
-
-    /**
-     * Devuelve la suma de getH() y getF()
-     *
-     * @return
-     */
-    @Override
-    public double getF() {
-        return getH() + getG();
-    }
 }
