@@ -52,28 +52,9 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
      */
     @Override
     public double getH() {
-        return getDistanciaRecorrida();
+        return (1d - (1d / getDistanciaRecorrida()));
     }
 
-    @Override
-    public double getF() {
-
-        //System.out.println(getG());
-        /*
-         * Le damos un peso mínimo a la distancia para discriminar
-         * Rutas con el mismo número de transbordos que se están
-         * Alejando del destino final.
-         * Objetivo
-         * Acercar el resultado al menor número de trasbordos y la ruta
-         * más cercana.
-         */
-        //@MIRAR
-        if (clave.getNombre().toLowerCase().startsWith("villa")) {
-            System.out.println("");
-        }
-
-        return (getG() * 10) + (1d - (1d / getH()));
-    }
 
     public int getTrasbordos() {
         int trasbordos = 0;

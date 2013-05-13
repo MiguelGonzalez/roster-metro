@@ -138,7 +138,9 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
 
     public abstract double getG();
 
-    public abstract double getF();
+    public final double getF(){
+        return getG()+getH();
+    };
 
     /**
      * BusquedaRuta utiliza una PriorityQueue para ordenar las IFilaAAsterisco.
