@@ -96,16 +96,6 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
     }
 
     /**
-     * Actualiza la filaAAsterisco anterior. Puede ser útil cuando se ha
-     * encontrado un camino mejor para llegar a esta fila
-     *
-     * @param anterior
-     */
-    protected final void setAnterior(IFilaAAsterisco anterior) {
-        this.anterior = anterior;
-    }
-
-    /**
      * Devuelve la distancia recorrida desde el inicio hasta esta fila
      *
      * @return

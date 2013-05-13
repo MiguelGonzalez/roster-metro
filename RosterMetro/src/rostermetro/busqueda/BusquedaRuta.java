@@ -82,13 +82,11 @@ public abstract class BusquedaRuta<R extends Ruta> {
                 //Si el sucesor está en la lista cerrada...
                 if (mismoEnCerrada != null) {
                     //Y tiene menor F que el de la cerrada...
-                    if (sucesor.compareTo(mismoEnCerrada) < 0) {
+                    int compareTo =new Double(sucesor.getG()).compareTo(mismoEnCerrada.getG());
+                    if (compareTo < 0) {
                         //Actualizamos la entrada
                         cerrada.remove(sucesorClave);
-                        sucesor.setAnterior(filaATratar);
-                        if(sucesor.getClave().getNombre().toLowerCase().startsWith("gran")){
-                            //System.out.println("");
-                        }
+                        
                         abierta.add(sucesor);
                     } 
 //                    else if(sucesor.compareTo(mismoEnCerrada) >=0){
