@@ -37,7 +37,7 @@ public class FilaAAsteriscoMasCorta extends IFilaAAsterisco {
      */
     @Override
     public double getH() {
-        return clave.getDistancia(getParadaFinal());
+        return super.getDistanciaAParadaFinal();
     }
 
     /**

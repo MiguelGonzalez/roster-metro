@@ -143,4 +143,8 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
     public final int compareTo(IFilaAAsterisco compareTo) {
         return Double.compare(getF(), compareTo.getF());
     }
+
+    protected final double getDistanciaAParadaFinal() {
+        return clave.getDistancia(paradaFinal);
+    }
 }
