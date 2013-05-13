@@ -7,6 +7,10 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import org.xml.sax.*;
 import rostermetro.busqueda.*;
 import rostermetro.busqueda.conLinea.*;
@@ -24,6 +28,8 @@ import rostermetroswing.model.*;
  */
 public class RosterMetroSwing extends JFrame {
 
+    public static final String TITULO = "Roster Metro";
+    public static final Dimension MINIMUM = new Dimension(100,100);
     private Plano plano;
     private JComboBox<Parada> origenCBox;
     private JComboBox<Parada> destinoCBox;
@@ -38,22 +44,28 @@ public class RosterMetroSwing extends JFrame {
             @Override
             public void run() {
                 RosterMetroSwing buscaParadasSimple =
-                        new RosterMetroSwing("Roster Metro");
+                        new RosterMetroSwing(TITULO);
                 buscaParadasSimple.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                buscaParadasSimple.pack();
+                buscaParadasSimple.setMinimumSize(MINIMUM);
+                
                 buscaParadasSimple.setLocationRelativeTo(null);
-
+                
                 buscaParadasSimple.setVisible(true);
+                buscaParadasSimple.pack();
             }
         });
     }
 
+    /**
+     * Inicializa componentes, listeners y construye la interfaz
+     *
+     * @param nombreAplicacion
+     */
     public RosterMetroSwing(String nombreAplicacion) {
         super(nombreAplicacion);
         planoParser = new PlanoKMLParser();
 
-        initComponenets();
+        initComponents();
 
         initListeners();
 
@@ -61,13 +73,16 @@ public class RosterMetroSwing extends JFrame {
         setPlano((Utilidades.PlanoAlmacenado) planoComboBox.getSelectedItem());
     }
 
-    private void initComponenets() {
+    /**
+     * Inicializa los jCombobox, la tabla y el plano de Google Maps
+     */
+    private void initComponents() {
 
         planoComboBox = new JComboBox<>(new DefaultComboBoxModel<>(Utilidades.getPlanosAlmacenados()));
         origenCBox = new JComboBox<>();
         destinoCBox = new JComboBox<>();
         tiposRutasCBox = new JComboBox<>(BusquedaRuta.TipoRuta.values());
-        
+
         rutaJTable = new JTable();
 
         planoMetroDibujo = new PlanoGoogleMaps();
@@ -80,6 +95,9 @@ public class RosterMetroSwing extends JFrame {
                 mostrarRuta();
             }
         };
+        origenCBox.addActionListener(muestraRuta);
+        destinoCBox.addActionListener(muestraRuta);
+        tiposRutasCBox.addActionListener(muestraRuta);
         planoComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,33 +106,50 @@ public class RosterMetroSwing extends JFrame {
 
             }
         });
-        origenCBox.addActionListener(muestraRuta);
-        destinoCBox.addActionListener(muestraRuta);
-        tiposRutasCBox.addActionListener(muestraRuta);
 
     }
-
+    /**
+     * Monta todos los componentes en paneles de forma ordenada
+     */
     private void initInterfaz() {
+        
+        Border b = new BevelBorder(BevelBorder.LOWERED);
+        Border b2 = new EmptyBorder(5, 5, 5, 5);
+        CompoundBorder compoundBorder = new CompoundBorder(b2, b);
+        
         Container container = getContentPane();
         JPanel principal = new JPanel(new BorderLayout());
-        
+
         JPanel panelIzquierda = new JPanel(new BorderLayout());
         panelIzquierda.add(new JScrollPane(rutaJTable), BorderLayout.CENTER);
-        panelIzquierda.add(tiposRutasCBox, BorderLayout.SOUTH);
+        panelIzquierda.add(tiposRutasCBox, BorderLayout.NORTH);
         
+        panelIzquierda.setBorder(compoundBorder);
+
         principal.add(panelIzquierda, BorderLayout.WEST);
 
-        JPanel panelSuperiorCentro = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panelSuperiorCentro.add(origenCBox);
-        panelSuperiorCentro.add(destinoCBox);
-        panelSuperiorCentro.add(planoComboBox);
+        JPanel panelSuperiorCentro = new JPanel(new GridLayout(0, 1));
+        JPanel orig = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        orig.add(new JLabel("Origen"));
+        orig.add(origenCBox);
+        panelSuperiorCentro.add(orig);
+        JPanel dest = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        dest.add(new JLabel("Destino"));
+        dest.add(destinoCBox);
+        panelSuperiorCentro.add(dest);
+        JPanel plan = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        plan.add(new JLabel("Plano"));
+        plan.add(planoComboBox);
+        panelSuperiorCentro.add(plan);
+        panelSuperiorCentro.setBorder(new BevelBorder(BevelBorder.RAISED));
 
         JPanel panelCentro = new JPanel(new BorderLayout());
+        panelCentro.setBorder(compoundBorder);
         panelCentro.add(panelSuperiorCentro, BorderLayout.NORTH);
-        
+
         JPanel centradoVertical = new JPanel(new BorderLayout());
-        
-        JPanel mapsCentrado = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel mapsCentrado = new JPanel(new GridLayout());
         mapsCentrado.add(planoMetroDibujo);
         centradoVertical.add(mapsCentrado, BorderLayout.CENTER);
         panelCentro.add(centradoVertical, BorderLayout.CENTER);
@@ -129,7 +164,7 @@ public class RosterMetroSwing extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea(pInicial, pFinal).calcularRuta((BusquedaRuta.TipoRuta)tiposRutasCBox.getSelectedItem());
+                Ruta<ParadaRutaConLinea> ruta = new BusquedaRutaConLinea(pInicial, pFinal).calcularRuta((BusquedaRuta.TipoRuta) tiposRutasCBox.getSelectedItem());
                 rutaJTable.setModel(new TablaRutaModel(ruta));
                 planoMetroDibujo.pintarRuta(ruta);
             }
