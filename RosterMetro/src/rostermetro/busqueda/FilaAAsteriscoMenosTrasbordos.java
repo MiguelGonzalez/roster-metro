@@ -52,7 +52,7 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
      */
     @Override
     public double getH() {//Marques->nuevos.San nicasio->Villa
-        return   0.7d*(1d - (1d / Math.max(clave.getDistancia(getParadaFinal()), 1d)));
+        return   0.7d*(1d - (1d / Math.max(super.getDistanciaAParadaFinal(), 1d)));
     }
 
 
