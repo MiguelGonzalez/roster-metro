@@ -34,6 +34,7 @@ public class PlanoGoogleMaps extends JLabel {
 
     public PlanoGoogleMaps() {
         setPreferredSize(new Dimension(W_GOOGLE, H_GOOGLE));
+        setSize(getPreferredSize());
         obtenedor = new ThreadObtieneImagenMapa(this);
         obtenedor.start();
         obtenedor.yield();
