@@ -128,24 +128,53 @@ public class RosterMetroSwing extends JFrame {
 
         principal.add(panelIzquierda, BorderLayout.WEST);
 
-        JPanel panelSuperiorCentro = new JPanel(new GridLayout(0, 1));
-        JPanel orig = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        orig.add(new JLabel("Origen"));
-        orig.add(origenCBox);
-        panelSuperiorCentro.add(orig);
-        JPanel dest = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        dest.add(new JLabel("Destino"));
-        dest.add(destinoCBox);
-        panelSuperiorCentro.add(dest);
-        JPanel plan = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        plan.add(new JLabel("Plano"));
-        plan.add(planoComboBox);
-        panelSuperiorCentro.add(plan);
-        panelSuperiorCentro.setBorder(new BevelBorder(BevelBorder.RAISED));
+        JPanel panelSuperiorCentro = new JPanel(new GridBagLayout());
+        
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.insets = new Insets(10,10,5,20);  //right padding
+        panelSuperiorCentro.add(new JLabel("Origen"), c);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.ipadx = 0;
+        c.gridwidth = 1;
+        c.insets = new Insets(10,0,5,10);  //right padding
+        panelSuperiorCentro.add(origenCBox, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.insets = new Insets(5,10,5,20);  //right padding
+        panelSuperiorCentro.add(new JLabel("Destino"), c);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.insets = new Insets(5,0,5,10);  //right padding
+        panelSuperiorCentro.add(destinoCBox, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.insets = new Insets(5,10,5,20);  //right padding
+        panelSuperiorCentro.add(new JLabel("Plano"), c);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.insets = new Insets(5,0,10,10);  //right padding
+        panelSuperiorCentro.add(planoComboBox, c);
+        
+        
+        
+        
+        
+        panelSuperiorCentro.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         JPanel panelCentro = new JPanel(new BorderLayout());
         panelCentro.setBorder(compoundBorder);
-        panelCentro.add(panelSuperiorCentro, BorderLayout.NORTH);
+        JPanel panelIzqDcha = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelIzqDcha.add(panelSuperiorCentro);
+        panelCentro.add(panelIzqDcha, BorderLayout.NORTH);
 
         JPanel centradoVertical = new JPanel(new BorderLayout());
 
