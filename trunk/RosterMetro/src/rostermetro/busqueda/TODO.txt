@@ -1,0 +1,4 @@
+BusquedaRuta-> eliminar @MIRAR
+FilaAAsteriscoMenosTrasbordos -> @MIRAR
+BusquedaRutaConLinea -> @PROBLEMA null!!
+NodosLinea -> comentarios

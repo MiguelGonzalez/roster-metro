@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rostermetro.busqueda;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,31 +10,54 @@ import rostermetro.domain.Parada;
 
 /**
  *
- * @author ceura
+ * IFilaAAsterisco para la búsqueda más con menos trasbordos
+ *
+ * @author Jaime Bárez y Miguel González
  */
 class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
 
-    public FilaAAsteriscoMenosTrasbordos(Parada clave, IFilaAAsterisco anterior,
+    /**
+     * Constructor protegido, ya que las filas se crean desde
+     * IFilaAAsterisco.create()
+     *
+     * @param clave
+     * @param anterior
+     * @param paradaFinal
+     * @param tipoRuta
+     */
+    protected FilaAAsteriscoMenosTrasbordos(Parada clave, IFilaAAsterisco anterior,
             Parada paradaFinal, BusquedaRuta.TipoRuta tipoRuta) {
         super(clave, anterior, paradaFinal, tipoRuta);
     }
 
     @Override
-    public double getG() {
-        return getTrasbordos(false);
+    protected FilaAAsteriscoMenosTrasbordos getAnterior() {
+        return (FilaAAsteriscoMenosTrasbordos) super.getAnterior();
     }
 
+    /**
+     * Devuelve el número de trasbordos
+     *
+     * @return
+     */
+    @Override
+    public double getG() {
+        return getTrasbordos();
+    }
+
+    /**
+     * Devuelve la distancia recorrida
+     *
+     * @return
+     */
     @Override
     public double getH() {
-        if (anterior == null) {
-            return 0;
-        } else {
-            return ((FilaAAsteriscoMenosTrasbordos)anterior).getH() + clave.getDistancia(anterior.getClave());
-        }
+        return getDistanciaRecorrida();
     }
 
     @Override
     public double getF() {
+
         //System.out.println(getG());
         /*
          * Le damos un peso mínimo a la distancia para discriminar
@@ -48,40 +66,35 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
          * Objetivo
          * Acercar el resultado al menor número de trasbordos y la ruta
          * más cercana.
-        */ 
-        return getG() + (getH() / 1000000000d);
-    }
-  
-    @Override
-    public int compareTo(IFilaAAsterisco compareTo) {
-        return Double.compare(getF(), ((FilaAAsteriscoMenosTrasbordos)compareTo).getF());
-    }
-    
-    
+         */
+        //@MIRAR
+        if (clave.getNombre().toLowerCase().startsWith("villa")) {
+            System.out.println("");
+        }
 
-    public int getTrasbordos(boolean mostrarMensaje) {
-        List<Parada> paradasPasado = new ArrayList<>();
-        
-        IFilaAAsterisco ant = this;
-        while(ant!=null){
-            paradasPasado.add(ant.getClave());
-            ant = ant.getAnterior();
+        return (getG() * 10) + (1d - (1d / getH()));
+    }
+
+    public int getTrasbordos() {
+        int trasbordos = 0;
+        List<Parada> paradasRecorridas = getParadasRecorridas();
+
+        Ruta<ParadaRutaConLinea> rutaConLineas = BusquedaRutaConLinea.getRfromListEstatico(paradasRecorridas);
+
+        if (rutaConLineas != null) {
+
+            List<ParadaRutaConLinea> listadoParadas = rutaConLineas.getListadoParadas();
+            Set<Linea> setL = new HashSet<>();
+            for (ParadaRutaConLinea paradaRutaConLinea : listadoParadas) {
+                Linea linea = paradaRutaConLinea.getLinea();
+                if (linea != null) {
+                    //Si no estaba en el set, trasbordos++
+                    if (setL.add(paradaRutaConLinea.getLinea())) {
+                        trasbordos++;
+                    }
+                }
+            }
         }
-        Set<Linea> setL = new HashSet<>();
-        List<ParadaRutaConLinea> listadoParadas;
-        try {
-        listadoParadas = BusquedaRutaConLinea.getRfromListEstatico
-                (paradasPasado).getListadoParadas();
-        } catch(NullPointerException ex) {
-            return 0;
-        }
-        
-        
-       for(ParadaRutaConLinea paradaRutaConLinea :listadoParadas){
-           
-           setL.add(paradaRutaConLinea.getLinea());
-       }
-       return setL.size();
-        
+        return trasbordos;
     }
 }

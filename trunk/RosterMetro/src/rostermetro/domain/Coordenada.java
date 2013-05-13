@@ -3,8 +3,8 @@ package rostermetro.domain;
 import java.awt.geom.Point2D;
 
 /**
- * Contiene la coordenada de una parada.
- * 
+ * Coordenada, compuesta por latitud y longitud
+ *
  * @author Jaime Bárez y Miguel González
  */
 public class Coordenada extends Point2D.Double {
@@ -18,8 +18,9 @@ public class Coordenada extends Point2D.Double {
     /**
      * Devuelve la distancia de dos coordenadas en metros usando el algoritmo
      * Haversine.
+     *
      * @param coordTo
-     * @return 
+     * @return
      */
     public double getHarversineDistanceTo(Coordenada coordTo) {
 

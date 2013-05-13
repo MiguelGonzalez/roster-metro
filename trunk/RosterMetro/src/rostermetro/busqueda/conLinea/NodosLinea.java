@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rostermetro.busqueda.conLinea;
 
 import java.util.ArrayList;
@@ -10,7 +6,7 @@ import rostermetro.domain.Linea;
 
 /**
  *
- * @author paracaidista
+ * @author Jaime Bárez y Miguel González
  */
 public class NodosLinea {
     private List<Linea> lineasRecorridas;

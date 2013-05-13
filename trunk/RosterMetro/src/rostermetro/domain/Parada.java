@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * Representa una parada con nombre y coordenadas
  *
  * @author Jaime Bárez y Miguel González
  */
@@ -35,17 +36,30 @@ public class Parada {
         return coordenada;
     }
 
+    /**
+     * Devuelve la distancia Haversine entre las dos paradas
+     *
+     * @param paradaTo
+     * @return
+     */
     public double getDistancia(Parada paradaTo) {
         return coordenada.getHarversineDistanceTo(paradaTo.getCoordenada());
     }
 
     /**
+     * Devuelve las líneas con las que tiene correspondencia.
+     *
      * @return the correspondencias
      */
     public Set<Linea> getCorrespondencias() {
         return Collections.unmodifiableSet(correspondencias);
     }
 
+    /**
+     * Devuelve las paradas directamente conectadas
+     *
+     * @return
+     */
     public Set<Parada> getSucesores() {
         Set<Parada> sucesores = new HashSet<>();
         for (Linea correspondencia : getCorrespondencias()) {
@@ -59,6 +73,28 @@ public class Parada {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.nombre);
         return hash;
+    }
+    /**
+     * Añade una correspondencia
+     * @param linea 
+     */
+    public void addCorrespondencia(Linea linea) {
+        correspondencias.add(linea);
+    }
+    /**
+     * Devuelve las líneas comunes con la parada dada
+     * @param p2
+     * @return 
+     */
+    public Set<Linea> getLineasComunes(Parada p2) {
+        Set<Linea> lineasComunes = new HashSet<>();
+        if (p2 != null) {
+            lineasComunes.addAll(getCorrespondencias());
+            //Interseccion
+            lineasComunes.retainAll(p2.getCorrespondencias());
+        }
+        return lineasComunes;
+
     }
 
     @Override
@@ -79,20 +115,5 @@ public class Parada {
     @Override
     public String toString() {
         return nombre;
-    }
-
-    public void addCorrespondencia(Linea linea) {
-        correspondencias.add(linea);
-    }
-
-    public Set<Linea> getLineasComunes(Parada p2) {
-        Set<Linea> lineasComunes = new HashSet<>();
-        if (p2 != null) {
-            lineasComunes.addAll(getCorrespondencias());
-            //Interseccion
-            lineasComunes.retainAll(p2.getCorrespondencias());
-        }
-        return lineasComunes;
-
     }
 }

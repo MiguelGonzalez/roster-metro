@@ -1,10 +1,10 @@
-/**
- * Paquete dedicado a la búsqueda de rutas
- */
 package rostermetro.busqueda;
 
-import java.util.*;
-import rostermetro.domain.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.PriorityQueue;
+import rostermetro.domain.Parada;
 
 /**
  *
@@ -16,25 +16,19 @@ import rostermetro.domain.*;
 public abstract class BusquedaRuta<R extends Ruta> {
 
     public static enum TipoRuta {
+
         MAS_CORTA, MENOS_TRASBORDOS;
     };
-    public static final TipoRuta DEFAULT_TIPO_RUTA = TipoRuta.MAS_CORTA;
     private final HashMap<Parada, IFilaAAsterisco> cerrada;
-    protected PriorityQueue<IFilaAAsterisco> abierta;//Lista abierta ordenada
+    protected final PriorityQueue<IFilaAAsterisco> abierta;//Lista abierta ordenada
     protected final Parada paradaInicio;
     protected final Parada paradaFinal;
-    
-    /**
-     * Se llama por calcularRutaFinal para devolver un tipo de ruta que la clase que herede quiera.
-     * @param paradasRuta
-     * @return R
-     */
-    protected abstract R getRfromList(List<Parada> paradasRuta);
 
     /**
-     * Constructor del objeto
-     * @param paradaInicio Recibe la parada de inicio
-     * @param paradaFinal  Recibe la parada a donde se quiere ir
+     * Construye el objeto e inicializa las variables
+     *
+     * @param paradaInicio Recibe la parada de origen
+     * @param paradaFinal Recibe la parada de destino
      */
     public BusquedaRuta(Parada paradaInicio, Parada paradaFinal) {
         abierta = new PriorityQueue<>();
@@ -44,36 +38,29 @@ public abstract class BusquedaRuta<R extends Ruta> {
     }
 
     /**
-     * Calcula la ruta por defecto
-     *
-     * @return R
-     */
-    public R calcularRuta() {
-        return calcularRuta(DEFAULT_TIPO_RUTA);
-    }
-
-    /**
      * Calcula la ruta dado el tipo de ruta a buscar
      *
      * @param tipoRuta
-     * @return R
+     * @return R La ruta calculada (null si no existe ruta)
      */
     public R calcularRuta(TipoRuta tipoRuta) {
-        IFilaAAsterisco filaInicial = FilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
+        IFilaAAsterisco filaInicial = FilaAAsteriscoMasCorta.create(paradaInicio, null, paradaFinal, tipoRuta);
+
         abierta.add(filaInicial);
 
         R rutaObtenida = calculaRutaRecursivo();
 
+        //Limpia las listas para un posible reuso del objeto
         abierta.clear();
         cerrada.clear();
         return rutaObtenida;
     }
 
     /**
-     * LLamado por calcularRuta. Trabaja con una fila inicial en la lista
-     * abierta.
+     * LLamado por calcularRuta. Se va llamando recursivamente hasta que
+     * encuentra la parada final en la cima de la lista abierta
      *
-     * @return R
+     * @return R La ruta calculada (null si no existe ruta)
      */
     private R calculaRutaRecursivo() {
         R calculada;
@@ -83,21 +70,37 @@ public abstract class BusquedaRuta<R extends Ruta> {
             calculada = calcularRutaFinal();
         } else {
             IFilaAAsterisco filaATratar = abierta.poll();
-            cerrada.put(filaATratar.getClave(), filaATratar);
+            //@MIRAR
+            if (TipoRuta.MENOS_TRASBORDOS.equals(filaATratar.tipoRuta)) {
+                System.out.println("---------------");
+                System.out.println("CLAVE= " + filaATratar.getClave());
+                Parada anterior = null;
+                if (filaATratar.getAnterior() != null) {
+                    anterior = filaATratar.getAnterior().getClave();
+                }
+                System.out.println("anterior= " + anterior);
+                System.out.println("f= " + filaATratar.getF());
+            }
             //
+            cerrada.put(filaATratar.getClave(), filaATratar);
+
+            //Recorremos todos los nodos sucesores
             for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
                 Parada sucesorClave = sucesor.getClave();
                 IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
 
-                if (mismoEnCerrada != null) {//Existe la clave en la lista cerrada
+                //Si el sucesor está en la lista cerrada...
+                if (mismoEnCerrada != null) {
+                    //Y tiene menor F que el de la cerrada...
                     if (sucesor.compareTo(mismoEnCerrada) < 0) {
+                        //Actualizamos la entrada
                         cerrada.remove(sucesorClave);
                         sucesor.setAnterior(filaATratar);
-                        abierta.add(sucesor);//El sucesor tiene menor F que su anterior entrada en la lista cerrada
-                        
+                        abierta.add(sucesor);
                     }
-                } //El sucesor no estaba en la cerrada, lo añadimos a la abierta
-                else {
+                } else {
+                    /*Si no está en la lista cerrada es que aún no ha sido recorrido.
+                     * Lo añadimos a la abierta*/
                     abierta.add(sucesor);
                 }
             }
@@ -108,25 +111,28 @@ public abstract class BusquedaRuta<R extends Ruta> {
     }
 
     /**
-     * Llamada por calculaRutaRecursivo() una vez hemos encontrado la ruta final
+     * Llamada por calculaRutaRecursivo() una vez hemos encontrado la ruta
+     * final. Va creando la lista de paradas, desapilando la parada con menos F
+     * de la lista y obteniendo su anterior, así una a una
      *
-     * @return R
+     * @return R La ruta calculada (null si no existe ruta)
      */
-    protected R calcularRutaFinal() {
+    private R calcularRutaFinal() {
         IFilaAAsterisco ultimaFila = abierta.peek();
-        List<Parada> paradasRuta = new ArrayList<>();
+        List<Parada> paradasRuta = ultimaFila.getParadasRecorridas();
 
-        IFilaAAsterisco aux = ultimaFila;
-        //Recorremos, creando la ruta
-        while (!aux.getClave().equals(paradaInicio)) {
-            paradasRuta.add(aux.getClave());
-
-            aux = aux.getAnterior();
-        }
-        paradasRuta.add(aux.getClave());
         //Damos la vuelta a la lista, ya que la hemos recorrido en sentido contrario
         Collections.reverse(paradasRuta);
 
         return getRfromList(paradasRuta);
     }
+
+    /**
+     * Se llama por calcularRutaFinal para devolver el tipo de ruta que la clase
+     * que herede quiera, gracias al uso de genéricos (R)
+     *
+     * @param paradasRuta
+     * @return R La ruta calculada (null si no existe ruta)
+     */
+    protected abstract R getRfromList(List<Parada> paradasRuta);
 }
