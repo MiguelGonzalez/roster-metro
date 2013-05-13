@@ -42,7 +42,7 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
      */
     @Override
     public double getG() {
-        return getTrasbordos() + (1d - (0.3d / getDistanciaRecorrida()));
+        return getTrasbordos() + 0.3d*(1d - (1d / getDistanciaRecorrida()));
     }
 
     /**
@@ -52,7 +52,7 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
      */
     @Override
     public double getH() {//Marques->nuevos.San nicasio->Villa
-        return   (1d - (0.7d / clave.getDistancia(getParadaFinal())));
+        return   0.7d*(1d - (1d / clave.getDistancia(getParadaFinal())));
     }
 
 
