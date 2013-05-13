@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * Representa toda la red de líneas y paradas.
- * 
+ *
  * @author Jaime Bárez y Miguel González
  */
 public class Plano {
@@ -35,6 +35,12 @@ public class Plano {
         return paradas;
     }
 
+    /**
+     * Dada una coordenada, devuelve la parada más cercana a la misma
+     *
+     * @param coordenada
+     * @return
+     */
     public Parada getParadaMasCercana(Coordenada coordenada) {
         Parada masCercana = null;
         double menorDistancia = Double.POSITIVE_INFINITY;

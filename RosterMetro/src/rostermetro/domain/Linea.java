@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Contiene un listado ordenado de paradas, puede ser circular si el nombre
- * de la línea acaba en Circular.
- * 
+ * Contiene un listado ordenado de paradas, puede ser circular si el nombre de
+ * la línea acaba en "Circular".
+ *
  * @author Jaime Bárez y Miguel González
  */
 public class Linea {
@@ -33,43 +33,68 @@ public class Linea {
         return Collections.unmodifiableList(paradas);
     }
 
+    /**
+     * Dada una parada, devuelve true si hay una parada anterior en esta línea
+     *
+     * @param parada
+     * @return
+     */
     private boolean tieneAnterior(Parada parada) {
-        if(circular){
+        if (circular) {
             return true;
-        } else{
+        } else {
             return paradas.indexOf(parada) > 0;
         }
     }
 
+    /**
+     * Devuelve la parada anterior a la dada en esta línea
+     *
+     * @param parada
+     * @return
+     */
     private Parada getAnteriorParada(Parada parada) {
         int index = paradas.indexOf(parada) - 1;
-        if(circular && index<0){
-            index =paradas.size()+index;
+        if (circular && index < 0) {
+            index = paradas.size() + index;
         }
         return paradas.get(index);
     }
 
+    /**
+     * Dada una parada, devuelve true si hay una parada siguiente en esta línea
+     *
+     * @param parada
+     * @return
+     */
     private boolean tieneSiguiente(Parada parada) {
-        if(circular){
+        if (circular) {
             return true;
-        } else{
+        } else {
             return paradas.indexOf(parada) != paradas.size() - 1;
         }
     }
 
+    /**
+     * Devuelve la parada siguiente a la dada en esta línea
+     *
+     * @param parada
+     * @return
+     */
     private Parada getSiguienteParada(Parada parada) {
         int index = paradas.indexOf(parada) + 1;
-        if(circular && index>=paradas.size()){
-            index =index%paradas.size();
+        if (circular && index >= paradas.size()) {
+            index = index % paradas.size();
         }
         return paradas.get(index);
 
     }
 
     /**
-     * Devuelve las paradas a las que se puede llegar desde la actual.
+     * Devuelve las paradas directamente conectadas a la dada en esta línea.
+     *
      * @param parada
-     * @return 
+     * @return
      */
     public List<Parada> getParadasQueRodean(Parada parada) {
         List<Parada> sucesores = new LinkedList<>();
@@ -80,6 +105,15 @@ public class Linea {
             sucesores.add(getSiguienteParada(parada));
         }
         return sucesores;
+    }
+
+    /**
+     * Añada una parada al final de la línea
+     *
+     * @param paradaToAdd
+     */
+    public void addParada(Parada paradaToAdd) {
+        paradas.add(paradaToAdd);
     }
 
     @Override
@@ -107,9 +141,5 @@ public class Linea {
     @Override
     public String toString() {
         return nombre;
-    }
-
-    public void addParada(Parada paradaToAdd) {
-        paradas.add(paradaToAdd);
     }
 }

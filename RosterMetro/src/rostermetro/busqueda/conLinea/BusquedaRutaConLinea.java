@@ -21,23 +21,30 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
     }
 
     /**
-     * Esta función se encarga de calcular la ruta con su mínimo número de líneas para
-     * recorrerla.
-     * La técnica consiste en ir agregando a un saco todas las líneas con todas, si la línea
-     * a agregar es distinta a la anterior se considera un transbordo. Al final de cada
-     * parada se calcula el número de trasbordos mínimos y se eliminan aquellos
-     * elementos del saco que superan ese número mínimo.
-     * Al final en el saco quedan las rutas con líneas mínimas y se devuelve
-     * la primera de todas ellas.
-     * @param paradasRu Lista de paradas calculada
-     * @return Ruta<ParadaRutaConLinea>
+     * Dada una lista de paradas, obtiene la ruta de paradas Y LINEAS. Llama a
+     * getRfromListEstatico()
+     *
+     * @param paradasRu
+     * @return
      */
     @Override
     protected Ruta<ParadaRutaConLinea> getRfromList(List<Parada> paradasRu) {
         return getRfromListEstatico(paradasRu);
     }
 
-    public static Ruta<ParadaRutaConLinea> getRfromListEstatico(List<Parada> paradasRu){
+    /**
+     * Esta función se encarga de calcular la ruta con su mínimo número de
+     * líneas para recorrerla. La técnica consiste en ir agregando a un saco
+     * todas las líneas con todas, si la línea a agregar es distinta a la
+     * anterior se considera un transbordo. Al final de cada parada se calcula
+     * el número de trasbordos mínimos y se eliminan aquellos elementos del saco
+     * que superan ese número mínimo. Al final en el saco quedan las rutas con
+     * líneas mínimas y se devuelve la primera de todas ellas.
+     *
+     * @param paradasRu Lista de paradas calculada
+     * @return Ruta<ParadaRutaConLinea>
+     */
+    public static Ruta<ParadaRutaConLinea> getRfromListEstatico(List<Parada> paradasRu) {
         if (paradasRu == null) {
             return null;
         }
@@ -62,6 +69,7 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
 
             } else if (i == paradasRu.size() - 1) {
                 if (listaParadasRutas.size() > 0) {
+                    //@PROBLEMA!!!!!
                     listaParadasRutas.get(0).addLinea(null);
                     lineasOptimasEncontradas = listaParadasRutas.get(0).getLineasTotales();
                 }

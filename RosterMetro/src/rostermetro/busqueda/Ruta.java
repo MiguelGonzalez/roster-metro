@@ -5,19 +5,19 @@ import java.util.List;
 import rostermetro.domain.Parada;
 
 /**
- * 
+ * Lista de paradas
  * @author Jaime Bárez y Miguel González
- * @param <T> Clase Genérica de una parada
+ * @param <P> Clase Genérica de una parada
  */
-public class Ruta<T extends Parada> {
+public class Ruta<P extends Parada> {
 
-    private List<T> paradas;
+    private List<P> paradas;
 
-    public Ruta(List<T> paradas) {
+    public Ruta(List<P> paradas) {
         this.paradas = paradas;
     }
 
-    public List<T> getListadoParadas() {
+    public List<P> getListadoParadas() {
         return paradas;
     }
 
