@@ -13,13 +13,13 @@ public class NodosLinea {
     private int numTransbordos;
 
     public NodosLinea(Linea miLinea) {
-        lineasRecorridas = new ArrayList<>();
+        lineasRecorridas = new ArrayList<Linea>();
         lineasRecorridas.add(miLinea);
         numTransbordos = 0;
     }
 
     public NodosLinea(NodosLinea nodosLinea) {
-        lineasRecorridas = new ArrayList<>(nodosLinea.getLineasTotales());
+        lineasRecorridas = new ArrayList<Linea>(nodosLinea.getLineasTotales());
         numTransbordos = nodosLinea.getTransbordos();
     }
 

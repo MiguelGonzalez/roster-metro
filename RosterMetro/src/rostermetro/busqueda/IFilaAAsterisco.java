@@ -80,7 +80,7 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
      * @return List<FilaAAsterisco>
      */
     public final List<IFilaAAsterisco> getSucesores() {
-        List<IFilaAAsterisco> sucesores = new LinkedList<>();
+        List<IFilaAAsterisco> sucesores = new LinkedList<IFilaAAsterisco>();
         for (Parada parada : clave.getSucesores()) {
             IFilaAAsterisco sucesor = create(parada, this, getParadaFinal(), tipoRuta);
             sucesores.add(sucesor);

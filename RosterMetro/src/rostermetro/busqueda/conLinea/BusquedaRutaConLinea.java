@@ -47,16 +47,19 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
     public static Ruta<ParadaRutaConLinea> getRfromListEstatico(List<Parada> paradasRu) {
         if (paradasRu == null) {
             return null;
+        } else if(paradasRu.size() == 1) {
+            return null;
         }
+        
         //Guardamos la lista de líneas que se van sucediendo y su peso
-        List<NodosLinea> listaParadasRutas = new ArrayList<>();
+        List<NodosLinea> listaParadasRutas = new ArrayList<NodosLinea>();
         List<Linea> lineasOptimasEncontradas = null;
 
         for (int i = 0; i < paradasRu.size(); i++) {
             Parada paradaActual = paradasRu.get(i);
             if (i == 0) {
                 //Si es la primera parada
-                Parada paradaSiguiente = paradasRu.listIterator(i).next();
+                Parada paradaSiguiente = paradasRu.get(i+1);
 
                 Set<Linea> lineasQueLlevanSigParada = paradaActual.getLineasComunes(
                         paradaSiguiente);
@@ -68,17 +71,15 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
                 }
 
             } else if (i == paradasRu.size() - 1) {
-                if (listaParadasRutas.size() > 0) {
-                    //@PROBLEMA!!!!!
-                    listaParadasRutas.get(0).addLinea(null);
-                    lineasOptimasEncontradas = listaParadasRutas.get(0).getLineasTotales();
+                for(NodosLinea nodosLinea : listaParadasRutas) {
+                    nodosLinea.addLinea(null);
                 }
             } else {
-                Parada paradaSiguiente = paradasRu.listIterator(i).next();
+                Parada paradaSiguiente = paradasRu.get(i+1);
 
                 Set<Linea> lineasQueLlevanSigParada = paradaActual.getLineasComunes(paradaSiguiente);
 
-                List<NodosLinea> listaParadasRutasSig = new ArrayList<>();
+                List<NodosLinea> listaParadasRutasSig = new ArrayList<NodosLinea>();
 
                 for (NodosLinea nodosLinea : listaParadasRutas) {
                     //Para cada ruta agrego la línea
@@ -105,7 +106,7 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
 
             //Eliminamos aquellas que superan el número de transbordos
             List<NodosLinea> listaParadasRutasCopyIterator =
-                    new ArrayList<>(listaParadasRutas);
+                    new ArrayList<NodosLinea>(listaParadasRutas);
             Iterator<NodosLinea> itr = listaParadasRutasCopyIterator.iterator();
             while (itr.hasNext()) {
                 NodosLinea nodosLinea = itr.next();
@@ -114,12 +115,16 @@ public class BusquedaRutaConLinea extends BusquedaRuta<Ruta<ParadaRutaConLinea>>
                 }
             }
         }
+        
+        if(listaParadasRutas.size() > 0) {
+            lineasOptimasEncontradas = listaParadasRutas.get(0).getLineasTotales();
+        }
 
         if (lineasOptimasEncontradas == null) {
             return null;
         }
 
-        List<ParadaRutaConLinea> paradasRuta = new ArrayList<>();
+        List<ParadaRutaConLinea> paradasRuta = new ArrayList<ParadaRutaConLinea>();
 
         for (int i = 0; i < lineasOptimasEncontradas.size(); i++) {
             Parada paradaActual = paradasRu.get(i);

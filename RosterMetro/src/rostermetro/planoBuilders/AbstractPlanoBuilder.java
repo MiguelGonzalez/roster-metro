@@ -103,7 +103,7 @@ public abstract class AbstractPlanoBuilder<P, L> {
     protected abstract Parada createParada(P paradaGeneric);
 
     private void initializeValues() {
-        externalLYSuLinea = new LinkedHashMap<>();
-        paradas = new HashSet<>();
+        externalLYSuLinea = new LinkedHashMap<L, Linea>();
+        paradas = new HashSet<Parada>();
     }
 }

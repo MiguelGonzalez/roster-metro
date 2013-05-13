@@ -95,6 +95,6 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
                 }
             }
         }
-        return trasbordos;
+        return trasbordos - 1;
     }
 }

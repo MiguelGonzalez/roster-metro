@@ -3,7 +3,6 @@ package rostermetro.domain;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -59,7 +58,7 @@ public class Plano {
         Iterator<Parada> iterator = paradas.iterator();
         while (iterator.hasNext()) {
             Parada next = iterator.next();
-            if (Objects.equals(nombreParada, next.getNombre())) {
+            if (nombreParada.equals(next.getNombre())) {
                 parada = next;
                 break;
             }
