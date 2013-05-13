@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Contiene un listado ordenado de paradas, puede ser circular si el nombre de
@@ -21,7 +20,7 @@ public class Linea {
 
     public Linea(String nombre) {
         this.nombre = nombre;
-        this.paradas = new ArrayList<>();
+        this.paradas = new ArrayList<Parada>();
         circular = nombre.endsWith(CIRCULAR);
     }
 
@@ -97,7 +96,7 @@ public class Linea {
      * @return
      */
     public List<Parada> getParadasQueRodean(Parada parada) {
-        List<Parada> sucesores = new LinkedList<>();
+        List<Parada> sucesores = new LinkedList<Parada>();
         if (tieneAnterior(parada)) {
             sucesores.add(getAnteriorParada(parada));
         }
@@ -119,7 +118,7 @@ public class Linea {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.nombre);
+        hash = 59 * hash + nombre.hashCode();
         return hash;
     }
 
@@ -132,7 +131,7 @@ public class Linea {
             return false;
         }
         final Linea other = (Linea) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        if (!nombre.equals(other.nombre)) {
             return false;
         }
         return true;
