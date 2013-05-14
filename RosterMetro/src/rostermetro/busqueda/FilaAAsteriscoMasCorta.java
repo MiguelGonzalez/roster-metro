@@ -9,7 +9,7 @@ import rostermetro.domain.Parada;
  *
  * @author Jaime Bárez y Miguel González
  */
-public class FilaAAsteriscoMasCorta extends IFilaAAsterisco {
+class FilaAAsteriscoMasCorta extends IFilaAAsterisco {
 
     /**
      * Constructor protegido, ya que las filas se crean desde

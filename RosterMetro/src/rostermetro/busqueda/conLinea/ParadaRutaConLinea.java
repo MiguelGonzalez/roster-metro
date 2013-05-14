@@ -4,8 +4,8 @@ import rostermetro.domain.Linea;
 import rostermetro.domain.Parada;
 
 /**
- * Parada calculada por una BusquedaRutaConLinea.
- * Contiene información de la línea por la que ha pasado
+ * Parada calculada por una BusquedaRutaConLinea. Contiene información de la
+ * línea por la que ha pasado
  *
  * @author Jaime Bárez y Miguel González
  */

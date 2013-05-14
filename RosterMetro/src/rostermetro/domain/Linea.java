@@ -20,7 +20,7 @@ public class Linea {
 
     public Linea(String nombre) {
         this.nombre = nombre;
-        this.paradas = new ArrayList<Parada>();
+        this.paradas = new ArrayList<>();
         circular = nombre.endsWith(CIRCULAR);
     }
 
@@ -96,7 +96,7 @@ public class Linea {
      * @return
      */
     public List<Parada> getParadasQueRodean(Parada parada) {
-        List<Parada> sucesores = new LinkedList<Parada>();
+        List<Parada> sucesores = new LinkedList<>();
         if (tieneAnterior(parada)) {
             sucesores.add(getAnteriorParada(parada));
         }

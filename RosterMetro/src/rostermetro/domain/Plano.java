@@ -2,7 +2,6 @@ package rostermetro.domain;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -53,12 +52,20 @@ public class Plano {
         return masCercana;
     }
 
-    public Parada getParada(String nombreParada) {
+    /**
+     * Dado el principio del nombre de parada devuelve el primero objeto
+     * encontrado que lo representa en este plano (si existe). No importa la
+     * capitalización de las letras, aunque sí las tildes
+     *
+     * @param empiezaPor
+     * @return
+     */
+    public Parada getParada(String empiezaPor) {
+        empiezaPor = empiezaPor.toLowerCase();
         Parada parada = null;
-        Iterator<Parada> iterator = paradas.iterator();
-        while (iterator.hasNext()) {
-            Parada next = iterator.next();
-            if (nombreParada.equals(next.getNombre())) {
+
+        for (Parada next : paradas) {
+            if ((next.getNombre()).toLowerCase().startsWith(empiezaPor)) {
                 parada = next;
                 break;
             }

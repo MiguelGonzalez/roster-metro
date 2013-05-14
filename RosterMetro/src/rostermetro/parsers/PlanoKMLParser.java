@@ -9,28 +9,30 @@ import java.io.IOException;
 import java.io.Reader;
 import org.xml.sax.SAXException;
 import rostermetro.domain.Plano;
-import rostermetro.planoBuilders.AbstractPlanoBuilder;
 import rostermetro.planoBuilders.PlanoKMLBuilder;
 
 /**
- * A partir de un fichero KML y usando la librería gekmlib se construye
- * un objeto plano con toda la información.
+ * A partir de un fichero KML y usando la librería gekmlib se construye un
+ * objeto Plano con toda la información. https://code.google.com/p/gekmllib/
+ *
  * @author Jaime Bárez y Miguel González
  */
-public class PlanoKMLParser extends PlanoParser {
+public class PlanoKMLParser extends PlanoParser<PlanoKMLBuilder> {
 
+    /**
+     * Se inicializa usando un PlanoKMLBuilder
+     */
     public PlanoKMLParser() {
         super(new PlanoKMLBuilder());
     }
 
     @Override
     public Plano parse(Reader reader) throws IOException, SAXException {
-
         Kml parsedKML = new KMLParser().parse(reader);
-        AbstractPlanoBuilder planoMetroBuilder = getPlanoMetroBuilder();
+
         Folder[] lineasKML;
         String tituloPlano;
-
+        //Obtenemos el título del plano. (Puede estar en muchos sitios)
         Folder folder = parsedKML.getFolder();
         if (folder != null) {
             tituloPlano = folder.getName();
@@ -53,14 +55,15 @@ public class PlanoKMLParser extends PlanoParser {
             }
         }
 
-
+        //Vamos añadiendo líneas y sus paradas
         for (Folder lineaKML : lineasKML) {
             for (Placemark paradaKML : lineaKML.getPlacemarks()) {
                 planoMetroBuilder.put(paradaKML, lineaKML);
             }
         }
-
-
-        return planoMetroBuilder.createPlano(tituloPlano);
+        Plano plano = planoMetroBuilder.createPlano(tituloPlano);
+        //La información que quedara en planoMetroBuilder no nos interesa más para próximos usos
+        planoMetroBuilder.flush();
+        return plano;
     }
 }

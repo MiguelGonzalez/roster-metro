@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Representa una parada con nombre y coordenadas
+ * Representa una parada con nombre, coordenadas y correspondencias.
  *
  * @author Jaime Bárez y Miguel González
  */
@@ -56,7 +56,7 @@ public class Parada {
     }
 
     /**
-     * Devuelve las paradas directamente conectadas
+     * Devuelve las paradas directamente conectadas a esta.
      *
      * @return
      */
@@ -74,17 +74,21 @@ public class Parada {
         hash = 79 * hash + Objects.hashCode(this.nombre);
         return hash;
     }
+
     /**
      * Añade una correspondencia
-     * @param linea 
+     *
+     * @param linea
      */
     public void addCorrespondencia(Linea linea) {
         correspondencias.add(linea);
     }
+
     /**
      * Devuelve las líneas comunes con la parada dada
+     *
      * @param p2
-     * @return 
+     * @return
      */
     public Set<Linea> getLineasComunes(Parada p2) {
         Set<Linea> lineasComunes = new HashSet<>();
@@ -94,7 +98,6 @@ public class Parada {
             lineasComunes.retainAll(p2.getCorrespondencias());
         }
         return lineasComunes;
-
     }
 
     @Override
