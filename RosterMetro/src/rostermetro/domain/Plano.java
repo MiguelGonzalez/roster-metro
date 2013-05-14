@@ -34,7 +34,7 @@ public class Plano {
     }
 
     /**
-     * Dada una coordenada, devuelve la parada más cercana a la misma
+     * Dada una coordenada, devuelve la parada más cercana a la misma. No usado.
      *
      * @param coordenada
      * @return
@@ -55,7 +55,8 @@ public class Plano {
     /**
      * Dado el principio del nombre de parada devuelve el primero objeto
      * encontrado que lo representa en este plano (si existe). No importa la
-     * capitalización de las letras, aunque sí las tildes
+     * capitalización de las letras, aunque sí las tildes. Usado para posible
+     * DEBUG.
      *
      * @param empiezaPor
      * @return
