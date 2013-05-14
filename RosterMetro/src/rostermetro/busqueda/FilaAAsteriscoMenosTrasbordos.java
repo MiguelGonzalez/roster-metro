@@ -51,8 +51,8 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
      * @return
      */
     @Override
-    public double getH() {//Marques->nuevos.San nicasio->Villa//NO: laguna-colonia
-        return   0.9d*(1d - (1d / Math.max(super.getDistanciaAParadaFinal(), 1d)));
+    public double getH() {//Ventura->Parque santa maría.Marques->nuevos.San nicasio->Villa//NO: laguna-colonia
+        return   0.9d*(1d - (1d / Math.max(getDistanciaAParadaFinal(), 1d)));
     }
 
 
