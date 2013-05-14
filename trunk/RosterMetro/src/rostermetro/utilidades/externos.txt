@@ -1,5 +1,0 @@
-KMLs descargados de:
-http://www.google-earth.es/
-
-KML parser:
-https://code.google.com/p/gekmllib/
