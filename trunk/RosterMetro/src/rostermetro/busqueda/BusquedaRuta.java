@@ -1,6 +1,5 @@
 package rostermetro.busqueda;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -70,29 +69,37 @@ public abstract class BusquedaRuta<R extends Ruta> {
             calculada = calcularRutaFinal();
         } else {
             IFilaAAsterisco filaATratar = abierta.poll();
-
             //TODO devuelve?
-            
-            cerrada.put(filaATratar.getClave(), filaATratar);
+            boolean continuar = false;
+            IFilaAAsterisco put = cerrada.get(filaATratar.getClave());
+            if (put != null) {
+                int compareTo = Double.compare(put.getG(), filaATratar.getG());
+                if (compareTo < 0) {
+                    continuar = true;
+                }
+            } else {
+                continuar = true;
+            }
+            if (continuar) {//Recorremos todos los nodos sucesores
+                cerrada.put(filaATratar.getClave(), filaATratar);
+                for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
+                    Parada sucesorClave = sucesor.getClave();
+                    IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
 
-            //Recorremos todos los nodos sucesores
-            for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
-                Parada sucesorClave = sucesor.getClave();
-                IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
-
-                //Si el sucesor está en la lista cerrada...
-                if (mismoEnCerrada != null) {
-                    int compareTo = Double.compare(sucesor.getG(), mismoEnCerrada.getG());
-                    //Y tiene menor G que el de la cerrada...
-                    if (compareTo < 0) {
-                        //Actualizamos la entrada
-                        cerrada.remove(sucesorClave);
+                    //Si el sucesor está en la lista cerrada...
+                    if (mismoEnCerrada != null) {
+                        int compareTo = Double.compare(sucesor.getG(), mismoEnCerrada.getG());
+                        //Y tiene menor G que el de la cerrada...
+                        if (compareTo < 0) {
+                            //Actualizamos la entrada
+                            cerrada.remove(sucesorClave);
+                            abierta.add(sucesor);
+                        }
+                    } else {
+                        /*Si no está en la lista cerrada es que aún no ha sido recorrido.
+                         * Lo añadimos a la abierta*/
                         abierta.add(sucesor);
                     }
-                } else {
-                    /*Si no está en la lista cerrada es que aún no ha sido recorrido.
-                     * Lo añadimos a la abierta*/
-                    abierta.add(sucesor);
                 }
             }
             //Seguimos recorriendo
@@ -112,7 +119,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
         IFilaAAsterisco ultimaFila = abierta.peek();
         List<Parada> paradasRuta = ultimaFila.getParadasRecorridas();
 
-        
+
 
         return getRfromList(paradasRuta);
     }
