@@ -2,22 +2,20 @@ package rostermetro.busqueda;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import static rostermetro.busqueda.BusquedaRuta.TipoRuta.MAS_CORTA;
 import static rostermetro.busqueda.BusquedaRuta.TipoRuta.MENOS_TRASBORDOS;
 import rostermetro.domain.Parada;
 
 /**
- * Interfaz para implementar la fila en la búsqueda con el algoritmo AAsterisco
+ * Interfaz para implementar una fila en la búsqueda con el algoritmo AAsterisco
  *
  * @author Jaime Bárez y Miguel González
  */
 public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
 
     protected final Parada clave;
-    private IFilaAAsterisco anterior;
+    private final IFilaAAsterisco anterior;
     private final Parada paradaFinal;
     protected final BusquedaRuta.TipoRuta tipoRuta;
 
@@ -38,7 +36,8 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
     }
 
     /**
-     * Crea una IFilaAAsterisco a partir de una anterior
+     * Crea una IFilaAAsterisco a partir de una anterior. Si la anterior es null
+     * es que es la primera
      *
      * @param clave
      * @param anterior
@@ -81,7 +80,7 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
      * @return List<FilaAAsterisco>
      */
     public final List<IFilaAAsterisco> getSucesores() {
-        List<IFilaAAsterisco> sucesores = new LinkedList<IFilaAAsterisco>();
+        List<IFilaAAsterisco> sucesores = new ArrayList<>();
         for (Parada parada : clave.getSucesores()) {
             IFilaAAsterisco sucesor = create(parada, this, getParadaFinal(), tipoRuta);
             sucesores.add(sucesor);
@@ -127,19 +126,35 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
         return paradasRecorridas;
     }
 
+    /**
+     * A imlementar por la función que herede. Devolverá un peso respecto al
+     * camino recorrido
+     *
+     * @return
+     */
     public abstract double getH();
 
+    /**
+     * A implementar por la función que herede. Devolverá un peso estimado a la
+     * parada final
+     *
+     * @return
+     */
     public abstract double getG();
 
+    /**
+     * Devuelve la suma de G y H
+     *
+     * @return
+     */
     public final double getF() {
         return getG() + getH();
     }
 
-    ;
-
     /**
      * BusquedaRuta utiliza una PriorityQueue para ordenar las IFilaAAsterisco.
-     * El orden se determina gracias a compareTo
+     * El orden se determina gracias a compareTo. La PriorityQueue extraerá
+     * antes a los de menor F
      *
      * @param compareTo
      * @return
@@ -149,6 +164,11 @@ public abstract class IFilaAAsterisco implements Comparable<IFilaAAsterisco> {
         return Double.compare(getF(), compareTo.getF());
     }
 
+    /**
+     * Devuelve la distancia a la parada final
+     *
+     * @return
+     */
     protected final double getDistanciaAParadaFinal() {
         return clave.getDistancia(paradaFinal);
     }

@@ -1,7 +1,6 @@
 package rostermetro.planoBuilders;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import rostermetro.domain.Linea;
@@ -21,8 +20,11 @@ public abstract class AbstractPlanoBuilder<P, L> {
     private Map<L, Linea> externalLYSuLinea;
     private HashSet<Parada> paradas;
 
+    /**
+     * Inicializa los valores internos que necesita para trabajar
+     */
     public AbstractPlanoBuilder() {
-        initializeValues();
+        flush();
     }
 
     /**
@@ -33,7 +35,7 @@ public abstract class AbstractPlanoBuilder<P, L> {
      * @param paradaGeneric
      * @param lineaGeneric
      */
-    public void put(P paradaGeneric, L lineaGeneric) {
+    public final void put(P paradaGeneric, L lineaGeneric) {
 
         //Puede que esta línea ya haya sido registrada anteriormente
         Linea linea = externalLYSuLinea.get(lineaGeneric);
@@ -45,17 +47,15 @@ public abstract class AbstractPlanoBuilder<P, L> {
         Parada posibleParadaToAdd = createParada(paradaGeneric);
         Parada paradaToAdd = null;
         //Puede que la parada ya haya sido registrada en otra línea
-        if (paradas.contains(posibleParadaToAdd)) {//Gracias a sobreescribir el equals en la clase Parada
-            //Iteramos hasta obtener la parada existente
-            Iterator<Parada> iterator = paradas.iterator();
-            while (iterator.hasNext()) {
-                Parada next = iterator.next();
-                if (next.equals(posibleParadaToAdd)) {
-                    paradaToAdd = next;
+        if (paradas.contains(posibleParadaToAdd)) {//Gracias a sobreescribir el equals() en la clase Parada
+            //Iteramos hasta obtener la parada existente a la que se apuntará
+            for (Parada parada : paradas) {
+                if (parada.equals(posibleParadaToAdd)) {
+                    paradaToAdd = parada;
                     break;
                 }
             }
-        } else {
+        } else {//La parada no ha sido registrada aún
             paradas.add(posibleParadaToAdd);
             paradaToAdd = posibleParadaToAdd;
         }
@@ -70,18 +70,17 @@ public abstract class AbstractPlanoBuilder<P, L> {
      * @param titulo
      * @return
      */
-    public Plano createPlano(String titulo) {
-        Plano plano = new Plano(titulo, externalLYSuLinea.values(), paradas);
-        flush();
-        return plano;
+    public final Plano createPlano(String titulo) {
+        return new Plano(titulo, externalLYSuLinea.values(), paradas);
     }
 
     /**
      * Usado para limpiar los datos introducidos con la función put y reusar el
      * objeto
      */
-    private void flush() {
-        initializeValues();
+    public final void flush() {
+        externalLYSuLinea = new LinkedHashMap<>();
+        paradas = new HashSet<>();
     }
 
     /**
@@ -101,9 +100,4 @@ public abstract class AbstractPlanoBuilder<P, L> {
      * @return
      */
     protected abstract Parada createParada(P paradaGeneric);
-
-    private void initializeValues() {
-        externalLYSuLinea = new LinkedHashMap<L, Linea>();
-        paradas = new HashSet<Parada>();
-    }
 }

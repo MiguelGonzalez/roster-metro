@@ -9,17 +9,18 @@ import rostermetro.domain.Linea;
  * @author Jaime Bárez y Miguel González
  */
 public class NodosLinea {
-    private List<Linea> lineasRecorridas;
+
+    private final List<Linea> lineasRecorridas;
     private int numTransbordos;
 
     public NodosLinea(Linea miLinea) {
-        lineasRecorridas = new ArrayList<Linea>();
+        lineasRecorridas = new ArrayList<>();
         lineasRecorridas.add(miLinea);
         numTransbordos = 0;
     }
 
     public NodosLinea(NodosLinea nodosLinea) {
-        lineasRecorridas = new ArrayList<Linea>(nodosLinea.getLineasTotales());
+        lineasRecorridas = new ArrayList<>(nodosLinea.getLineasTotales());
         numTransbordos = nodosLinea.getTransbordos();
     }
 

@@ -10,11 +10,20 @@ import rostermetro.domain.Parada;
 
 /**
  *
- * IFilaAAsterisco para la búsqueda más con menos trasbordos
+ * IFilaAAsterisco para la búsqueda con menos trasbordos
  *
  * @author Jaime Bárez y Miguel González
  */
 class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
+
+    /**
+     * Peso que se le da a la distancia recorrida.
+     */
+    public static final double PONDERACION_DIST_RECORRIDA = 0.1d;
+    /**
+     * Peso que se la da a la distancia a la parada final.
+     */
+    public static final double PONDERACION_DIST_A_PARADAFINAL = 1d - PONDERACION_DIST_RECORRIDA;
 
     /**
      * Constructor protegido, ya que las filas se crean desde
@@ -36,26 +45,41 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
     }
 
     /**
-     * Devuelve el número de trasbordos
+     * Devuelve un double. Las unidades muestran el número que identifica el
+     * número de trasbordos realizados. En las décimas muestra un número que va
+     * desde [0 - 0.1) creciendo linealmente según crece la distancia real
+     * recorrida
      *
      * @return
      */
     @Override
     public double getG() {
-        return getTrasbordos() + 0.1d*(1d - (1d / Math.max(getDistanciaRecorrida(), 1d)));
+        /*La distancia mínima recorrida es 1. Si fuera menos, lo que va a 
+         * la derecha de "getTrasbordos() +" podría dar negativo, y eso no puede ser*/
+        double distRecorrida = Math.max(getDistanciaRecorrida(), 1d);
+        return getTrasbordos() + PONDERACION_DIST_RECORRIDA * (1d - (1d / distRecorrida));
     }
 
     /**
-     * Devuelve la distancia recorrida
+     * Devuelve un double. A la izquierda de la coma siempre habrá un 0. En las
+     * décimas muestra un número que va desde [0 - 0.9) creciendo linealmente
+     * según aumenta la distancia al destino
      *
      * @return
      */
     @Override
-    public double getH() {//Ventura->Parque santa maría.Marques->nuevos.San nicasio->Villa//NO: laguna-colonia
-        return   0.9d*(1d - (1d / Math.max(getDistanciaAParadaFinal(), 1d)));
+    public double getH() {
+        /*La distancia mínima a la parada final es 1. Si fuera menos, lo que va a 
+         * la derecha de "getTrasbordos() +" podría dar negativo, y eso no puede ser*/
+        double distAParadaFinal = Math.max(getDistanciaAParadaFinal(), 1d);
+        return PONDERACION_DIST_A_PARADAFINAL * (1d - (1d / distAParadaFinal));
     }
 
-
+    /**
+     * Devuelve los trasbordos realizados hasta llegar a esta parada
+     *
+     * @return
+     */
     public int getTrasbordos() {
         int trasbordos = 0;
         List<Parada> paradasRecorridas = getParadasRecorridas();
@@ -63,7 +87,8 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
         Ruta<ParadaRutaConLinea> rutaConLineas = BusquedaRutaConLinea.getRfromListEstatico(paradasRecorridas);
 
         if (rutaConLineas != null) {
-
+            //Para que no cuente su propia línea como trasbordo
+            trasbordos--;
             List<ParadaRutaConLinea> listadoParadas = rutaConLineas.getListadoParadas();
             Set<Linea> setL = new HashSet<>();
             for (ParadaRutaConLinea paradaRutaConLinea : listadoParadas) {
@@ -76,6 +101,6 @@ class FilaAAsteriscoMenosTrasbordos extends IFilaAAsterisco {
                 }
             }
         }
-        return trasbordos - 1;
+        return trasbordos;
     }
 }

@@ -1,4 +1,2 @@
-BusquedaRuta-> eliminar @MIRAR
-FilaAAsteriscoMenosTrasbordos -> @MIRAR
-BusquedaRutaConLinea -> @PROBLEMA null!!
 NodosLinea -> comentarios
+//Ventura->Parque santa maría.Marques->nuevos.San nicasio->Villa//NO: laguna-colonia

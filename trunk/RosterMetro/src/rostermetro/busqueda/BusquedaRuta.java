@@ -43,7 +43,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * @return R La ruta calculada (null si no existe ruta)
      */
     public R calcularRuta(TipoRuta tipoRuta) {
-        IFilaAAsterisco filaInicial = FilaAAsteriscoMasCorta.create(paradaInicio, null, paradaFinal, tipoRuta);
+        IFilaAAsterisco filaInicial = IFilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
 
         abierta.add(filaInicial);
 
@@ -69,39 +69,29 @@ public abstract class BusquedaRuta<R extends Ruta> {
             calculada = calcularRutaFinal();
         } else {
             IFilaAAsterisco filaATratar = abierta.poll();
-            //TODO devuelve?
-            boolean continuar = false;
-            IFilaAAsterisco put = cerrada.get(filaATratar.getClave());
-            if (put != null) {
-                int compareTo = Double.compare(put.getG(), filaATratar.getG());
-                if (compareTo < 0) {
-                    continuar = true;
-                }
-            } else {
-                continuar = true;
-            }
-            if (continuar) {//Recorremos todos los nodos sucesores
-                cerrada.put(filaATratar.getClave(), filaATratar);
-                for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
-                    Parada sucesorClave = sucesor.getClave();
-                    IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
+            cerrada.put(filaATratar.getClave(), filaATratar);
 
-                    //Si el sucesor está en la lista cerrada...
-                    if (mismoEnCerrada != null) {
-                        int compareTo = Double.compare(sucesor.getG(), mismoEnCerrada.getG());
-                        //Y tiene menor G que el de la cerrada...
-                        if (compareTo < 0) {
-                            //Actualizamos la entrada
-                            cerrada.remove(sucesorClave);
-                            abierta.add(sucesor);
-                        }
-                    } else {
-                        /*Si no está en la lista cerrada es que aún no ha sido recorrido.
-                         * Lo añadimos a la abierta*/
+            //Recorremos todos los nodos sucesores
+            for (IFilaAAsterisco sucesor : filaATratar.getSucesores()) {
+                Parada sucesorClave = sucesor.getClave();
+                IFilaAAsterisco mismoEnCerrada = cerrada.get(sucesor.getClave());
+
+                //Si el sucesor está en la lista cerrada...
+                if (mismoEnCerrada != null) {
+                    int compareTo = Double.compare(sucesor.getG(), mismoEnCerrada.getG());
+                    //Y tiene menor G que el de la cerrada...
+                    if (compareTo < 0) {
+                        //Actualizamos la entrada
+                        cerrada.remove(sucesorClave);
                         abierta.add(sucesor);
                     }
+                } else {
+                    /*Si no está en la lista cerrada es que aún no ha sido recorrido.
+                     * Lo añadimos a la abierta*/
+                    abierta.add(sucesor);
                 }
             }
+
             //Seguimos recorriendo
             calculada = calculaRutaRecursivo();
         }
@@ -118,8 +108,6 @@ public abstract class BusquedaRuta<R extends Ruta> {
     private R calcularRutaFinal() {
         IFilaAAsterisco ultimaFila = abierta.peek();
         List<Parada> paradasRuta = ultimaFila.getParadasRecorridas();
-
-
 
         return getRfromList(paradasRuta);
     }
