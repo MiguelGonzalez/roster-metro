@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -66,6 +67,13 @@ public class RosterMetroSwing extends JFrame {
                         setSize(Toolkit.getDefaultToolkit().getScreenSize());
                         setLocationRelativeTo(null);
                         setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        Image imgLogo;
+                        try {
+                            imgLogo = ImageIO.read(RosterMetroSwing.class.getResourceAsStream("logoVentana.png"));
+                            setIconImage(imgLogo);
+                        } catch (IOException ex) {
+                            Logger.getLogger(RosterMetroSwing.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }.setVisible(true);
 
