@@ -14,6 +14,8 @@ import rostermetro.domain.Parada;
  */
 public abstract class BusquedaRuta<R extends Ruta> {
 
+    
+
     public static enum TipoRuta {
 
         MAS_CORTA, MENOS_TRASBORDOS;
@@ -22,6 +24,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
     protected final PriorityQueue<IFilaAAsterisco> abierta;//Lista abierta ordenada
     protected final Parada paradaInicio;
     protected final Parada paradaFinal;
+    private int nodosExplorados;
 
     /**
      * Construye el objeto e inicializa las variables
@@ -34,6 +37,14 @@ public abstract class BusquedaRuta<R extends Ruta> {
         cerrada = new HashMap<>();
         this.paradaInicio = paradaInicio;
         this.paradaFinal = paradaFinal;
+        nodosExplorados = 0;
+    }
+    
+    /**
+     * @return the nodosExplorados
+     */
+    public int getNodosExplorados() {
+        return nodosExplorados;
     }
 
     /**
@@ -43,6 +54,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
      * @return R La ruta calculada (null si no existe ruta)
      */
     public R calcularRuta(TipoRuta tipoRuta) {
+        nodosExplorados =0;
         IFilaAAsterisco filaInicial = IFilaAAsterisco.create(paradaInicio, null, paradaFinal, tipoRuta);
 
         abierta.add(filaInicial);
@@ -68,6 +80,7 @@ public abstract class BusquedaRuta<R extends Ruta> {
         } else if (abierta.peek().getClave().equals(paradaFinal)) {
             calculada = calcularRutaFinal();
         } else {
+            nodosExplorados++;
             IFilaAAsterisco filaATratar = abierta.poll();
             cerrada.put(filaATratar.getClave(), filaATratar);
 
