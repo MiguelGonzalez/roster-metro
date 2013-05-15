@@ -27,8 +27,10 @@ public class PlanoGoogleMaps extends JLabel {
      * Inicializa el objeto
      */
     public PlanoGoogleMaps() {
-        setSize(new Dimension(W_GOOGLE, H_GOOGLE));
-        setSize(getPreferredSize());
+        Dimension dimension = new Dimension(W_GOOGLE, H_GOOGLE);
+        setSize(dimension);
+        setPreferredSize(dimension);
+        setMinimumSize(dimension);
         obtenedor = new ThreadObtieneImagenMapa(this);
         iniciarObtenedor();
     }
