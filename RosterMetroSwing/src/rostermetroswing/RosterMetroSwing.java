@@ -45,6 +45,7 @@ public class RosterMetroSwing extends JFrame {
     private JComboBox<BusquedaRuta.TipoRuta> tiposRutasCBox;
     private JComboBox<CargaMapas.PlanoAlmacenado> planoComboBox;
     private JTable rutaJTable;
+    private JProgressBar progressBar;
     private PlanoGoogleMaps planoGoogleMaps;
     private final PlanoParser planoParser;
     private final Executor ejecutorBusquedas;
@@ -111,6 +112,9 @@ public class RosterMetroSwing extends JFrame {
         rutaJTable = new JTable();
 
         planoGoogleMaps = new PlanoGoogleMaps();
+
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setStringPainted(true);
     }
 
     /**
@@ -162,9 +166,10 @@ public class RosterMetroSwing extends JFrame {
                 long time_start, time_end;
                 mostrarCalculando();
                 time_start = System.currentTimeMillis();
-                mostrarRuta(new BusquedaRutaConLinea(pInicial, pFinal).calcularRuta(tr));
+                BusquedaRutaConLinea busquedaRutaConLinea = new BusquedaRutaConLinea(pInicial, pFinal);
+                mostrarRuta(busquedaRutaConLinea.calcularRuta(tr));
                 time_end = System.currentTimeMillis();
-                mostrarCalculada(time_end - time_start);
+                mostrarCalculada(time_end - time_start,busquedaRutaConLinea.getNodosExplorados());
             }
         });
     }
@@ -176,8 +181,10 @@ public class RosterMetroSwing extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 jLabelCalculo.setText("Calculando...");
                 jLabelCalculo.setForeground(COLOR_CALCULANDO_RUTA);
+                progressBar.setValue(0);
             }
         });
     }
@@ -186,13 +193,16 @@ public class RosterMetroSwing extends JFrame {
      * Avisamos gráficamente de que la ruta ha sido calculada
      *
      * @param milisegundos Tiempo que ha tardado la búsqueda
+     * @param nodosExplorados Nodos que han sido explorados
      */
-    private void mostrarCalculada(final long milisegundos) {
+    private void mostrarCalculada(final long milisegundos, final int nodosExplorados) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                jLabelCalculo.setText("Calculado en " + milisegundos + " ms");
+                getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                jLabelCalculo.setText("<html>Calculado en " + milisegundos + " ms<br>Nodos explorados: "+nodosExplorados+"</html>");
                 jLabelCalculo.setForeground(COLOR_RUTA_CALCULADA);
+                progressBar.setValue(100);
             }
         });
     }
@@ -282,6 +292,8 @@ public class RosterMetroSwing extends JFrame {
         alineadorNorte.setBorder(crearCompoundBorder());
 
         izquierda.add(alineadorNorte, BorderLayout.NORTH);
+
+        izquierda.add(progressBar, BorderLayout.SOUTH);
 
         izquierda.add(new JScrollPane(rutaJTable), BorderLayout.CENTER);
 
